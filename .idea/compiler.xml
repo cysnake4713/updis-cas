@@ -23,7 +23,7 @@
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="true" />
         <module name="erpclient" />
-        <module name="mobile" />
+        <module name="web" />
       </profile>
     </annotationProcessing>
   </component>

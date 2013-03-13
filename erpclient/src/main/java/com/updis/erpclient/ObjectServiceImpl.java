@@ -20,6 +20,14 @@ public class ObjectServiceImpl extends ServiceBase implements ObjectService {
     private String password;
     private Integer uid;
 
+    /**
+     * Object service to use to operate on the OpenERP models.
+     *
+     * @param modelName
+     * @param dbName
+     * @param password
+     * @param uid
+     */
     public ObjectServiceImpl(String modelName, String dbName, String password, Integer uid) {
         this.modelName = modelName;
         this.dbName = dbName;
@@ -30,19 +38,6 @@ public class ObjectServiceImpl extends ServiceBase implements ObjectService {
     @Override
     String getServiceName() {
         return SERVICE_NAME;
-    }
-
-    private Object execute(String method, Object[] params) throws Exception {
-        return this.getConnector().send("execute", getDbName(), getUid(), getPassword(), getModelName(), method, params);
-    }
-
-
-    private Object exec_workflow(String signal, Object[] params) throws Exception {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
-    }
-
-    public String getModelName() {
-        return modelName;
     }
 
     @Override
@@ -60,6 +55,32 @@ public class ObjectServiceImpl extends ServiceBase implements ObjectService {
         return this.read(this.search(domain));
     }
 
+    @Override
+    public List<Integer> search(List<SearchCriteria> domain) throws Exception {
+        SearchDomain searchDomain = new SearchDomainImpl();
+        Object[] ids = (Object[]) this.execute("search", searchDomain.getDomains(domain));
+        List<Integer> ret = new ArrayList<Integer>(ids.length);
+        for (Object id : ids) {
+            ret.add((Integer) id);
+        }
+        return ret;
+    }
+
+    @Override
+    public Integer create(Map<String, Object> vals) throws Exception {
+        return (Integer) this.getConnector().send("execute", getDbName(), getUid(), getPassword(), getModelName(), "create", vals);
+    }
+
+    @Override
+    public List<Map<String, Object>> read(List<Integer> ids, List<String> fields) throws Exception {
+        Object[] results = (Object[]) this.getConnector().send("execute", getDbName(), getUid(), getPassword(), getModelName(), "read", ids, fields);
+        List<Map<String, Object>> ret = new ArrayList<Map<String, Object>>(results.length);
+        for (Object obj : results) {
+            ret.add((Map<String, Object>) obj);
+        }
+        return ret;
+    }
+
     public String getDbName() {
         return dbName;
     }
@@ -72,25 +93,17 @@ public class ObjectServiceImpl extends ServiceBase implements ObjectService {
         return uid;
     }
 
-    @Override
-    public List<Integer> search(List<SearchCriteria> domain) throws Exception {
-        SearchDomain searchDomain = new SearchDomainImpl();
-        Object[] ids = (Object[]) this.execute("search", searchDomain.getDomains(domain));
-        List<Integer> ret = new ArrayList<Integer>(ids.length);
-        for (Object id : ids) {
-            ret.add((Integer) id);
-        }
-        return ret;
+    public String getModelName() {
+        return modelName;
+    }
+
+    private Object execute(String method, Object[] params) throws Exception {
+        return this.getConnector().send("execute", getDbName(), getUid(), getPassword(), getModelName(), method, params);
+    }
+
+    private Object exec_workflow(String signal, Object[] params) throws Exception {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
 
-    @Override
-    public List<Map<String, Object>> read(List<Integer> ids, List<String> fields) throws Exception {
-        Object[] results = (Object[]) this.getConnector().send("execute", getDbName(), getUid(), getPassword(), getModelName(), "read", ids, fields);
-        List<Map<String, Object>> ret = new ArrayList<Map<String, Object>>(results.length);
-        for (Object obj : results) {
-            ret.add((Map<String, Object>) obj);
-        }
-        return ret;
-    }
 }

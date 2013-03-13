@@ -3,10 +3,7 @@ package com.updis.erpclient;
 import com.updis.erpclient.criteria.SearchCriteria;
 
 import java.net.MalformedURLException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created with IntelliJ IDEA.
@@ -37,8 +34,12 @@ public class XMLRPCClient {
             searchCriterias.add(new SearchCriteria("mobile", "=", false));
             List<Integer> results = objectService.search(searchCriterias);
             List<Map<String, Object>> objects = objectService.searchRead(searchCriterias, Arrays.asList(new String[]{"name"}));
+            Map<String, Object> params = new HashMap<String, Object>();
+            params.put("name", "Shrek");
+            Integer id = objectService.create(params);
+            System.out.println(id);
 //            System.out.println(results);
-            System.out.println(objects);
+//            System.out.println(objects);
         } catch (MalformedURLException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         } catch (Exception e) {

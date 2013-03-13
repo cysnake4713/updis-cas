@@ -1,5 +1,6 @@
 package com.updis.erpclient;
 
+import com.updis.erpclient.config.ERPConfig;
 import com.updis.erpclient.criteria.Criteria;
 
 import java.util.List;
@@ -16,12 +17,11 @@ public interface ObjectService extends Service {
     /**
      * Search objects according to given domain.
      *
-     * @param modelName
      * @param domain
      * @return
      * @throws Exception
      */
-    List<Integer> search(String db, Integer uid, String password, String modelName, List<Criteria> domain) throws Exception;
+    List<Integer> search(ERPConfig config, List<Criteria> domain) throws Exception;
 
     /**
      * Read specified fields for given resources.
@@ -31,7 +31,7 @@ public interface ObjectService extends Service {
      * @return
      * @throws Exception
      */
-    List<Map<String, Object>> read(String db, Integer uid, String password, String modelName, List<Integer> ids, List<String> fields) throws Exception;
+    List<Map<String, Object>> read(ERPConfig config, List<Integer> ids, List<String> fields) throws Exception;
 
     /**
      * Read all fields for given resources.
@@ -40,7 +40,7 @@ public interface ObjectService extends Service {
      * @return
      * @throws Exception
      */
-    List<Map<String, Object>> read(String db, Integer uid, String password, String modelName, List<Integer> ids) throws Exception;
+    List<Map<String, Object>> read(ERPConfig config, List<Integer> ids) throws Exception;
 
     /**
      * Search and read the given fields from objects.
@@ -50,7 +50,7 @@ public interface ObjectService extends Service {
      * @return
      * @throws Exception
      */
-    List<Map<String, Object>> searchRead(String db, Integer uid, String password, String modelName, List<Criteria> domain, List<String> fields) throws Exception;
+    List<Map<String, Object>> searchRead(ERPConfig config, List<Criteria> domain, List<String> fields) throws Exception;
 
     /**
      * Search and read all fields from objects.
@@ -59,7 +59,7 @@ public interface ObjectService extends Service {
      * @return
      * @throws Exception
      */
-    List<Map<String, Object>> searchRead(String db, Integer uid, String password, String modelName, List<Criteria> domain) throws Exception;
+    List<Map<String, Object>> searchRead(ERPConfig config, List<Criteria> domain) throws Exception;
 
     /**
      * Create resource for a object.
@@ -68,5 +68,5 @@ public interface ObjectService extends Service {
      * @return
      * @throws Exception
      */
-    Integer create(String db, Integer uid, String password, String modelName, Map<String, Object> vals) throws Exception;
+    Integer create(ERPConfig config, Map<String, Object> vals) throws Exception;
 }

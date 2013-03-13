@@ -1,5 +1,6 @@
 package com.updis.erpclient;
 
+import com.updis.erpclient.config.ERPConfig;
 import com.updis.erpclient.criteria.Criteria;
 import com.updis.erpclient.criteria.CriteriaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,23 +29,23 @@ public class ObjectServiceImpl extends ServiceBase implements ObjectService {
     }
 
     @Override
-    public List<Map<String, Object>> read(String db, Integer uid, String password, String modelName, List<Integer> ids) throws Exception {
-        return this.read(db, uid, password, modelName, ids, null);
+    public List<Map<String, Object>> read(ERPConfig config, List<Integer> ids) throws Exception {
+        return this.read(config, ids, null);
     }
 
     @Override
-    public List<Map<String, Object>> searchRead(String db, Integer uid, String password, String modelName, List<Criteria> domain, List<String> fields) throws Exception {
-        return this.read(db, uid, password, modelName, this.search(db, uid, password, modelName, domain), fields);
+    public List<Map<String, Object>> searchRead(ERPConfig config, List<Criteria> domain, List<String> fields) throws Exception {
+        return this.read(config, this.search(config, domain), fields);
     }
 
     @Override
-    public List<Map<String, Object>> searchRead(String db, Integer uid, String password, String modelName, List<Criteria> domain) throws Exception {
-        return this.read(db, uid, password, modelName, this.search(db, uid, password, modelName, domain));
+    public List<Map<String, Object>> searchRead(ERPConfig config, List<Criteria> domain) throws Exception {
+        return this.read(config, this.search(config, domain));
     }
 
     @Override
-    public List<Integer> search(String db, Integer uid, String password, String modelName, List<Criteria> domain) throws Exception {
-        Object[] ids = (Object[]) this.execute(db, uid, password, modelName, "search", criteriaService.toDomains(domain));
+    public List<Integer> search(ERPConfig config, List<Criteria> domain) throws Exception {
+        Object[] ids = (Object[]) this.execute(config, "search", criteriaService.toDomains(domain));
         List<Integer> ret = new ArrayList<Integer>(ids.length);
         for (Object id : ids) {
             ret.add((Integer) id);
@@ -53,13 +54,13 @@ public class ObjectServiceImpl extends ServiceBase implements ObjectService {
     }
 
     @Override
-    public Integer create(String db, Integer uid, String password, String modelName, Map<String, Object> vals) throws Exception {
-        return (Integer) this.getConnector().send("execute", db, uid, password, modelName, "create", vals);
+    public Integer create(ERPConfig config, Map<String, Object> vals) throws Exception {
+        return (Integer) this.getConnector().send("execute", config.getDb(), config.getUid(), config.getPassword(), config.getModelName(), "create", vals);
     }
 
     @Override
-    public List<Map<String, Object>> read(String db, Integer uid, String password, String modelName, List<Integer> ids, List<String> fields) throws Exception {
-        Object[] results = (Object[]) this.getConnector().send("execute", db, uid, password, modelName, "read", ids, fields);
+    public List<Map<String, Object>> read(ERPConfig config, List<Integer> ids, List<String> fields) throws Exception {
+        Object[] results = (Object[]) this.getConnector().send("execute", config.getDb(), config.getUid(), config.getPassword(), config.getModelName(), "read", ids, fields);
         List<Map<String, Object>> ret = new ArrayList<Map<String, Object>>(results.length);
         for (Object obj : results) {
             ret.add((Map<String, Object>) obj);
@@ -68,8 +69,8 @@ public class ObjectServiceImpl extends ServiceBase implements ObjectService {
     }
 
 
-    private Object execute(String db, Integer uid, String password, String modelName, String method, Object[] params) throws Exception {
-        return this.getConnector().send("execute", db, uid, password, modelName, method, params);
+    private Object execute(ERPConfig config, String method, Object[] params) throws Exception {
+        return this.getConnector().send("execute", config.getDb(), config.getUid(), config.getPassword(), config.getModelName(), method, params);
     }
 
     private Object exec_workflow(String signal, Object[] params) throws Exception {

@@ -1,5 +1,6 @@
 package com.updis.erpclient;
 
+import com.updis.erpclient.config.ERPConfig;
 import com.updis.erpclient.criteria.Criteria;
 import com.updis.erpclient.criteria.CriteriaService;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
@@ -24,7 +25,8 @@ public class XMLRPCClient {
 
         ctx.getBean(CriteriaService.class);
         List<Criteria> criterias = new ArrayList<Criteria>();
-        List<Integer> integers = objectService.search("updis", 1, "admin", "res.partner", criterias);
+        ERPConfig erpConfig = new ERPConfig("updis",1,"Freeborders#1","res.partner");
+        List<Integer> integers = objectService.search(erpConfig, criterias);
         System.out.println(integers);
     }
 }

@@ -11,6 +11,6 @@ import java.util.List;
  *
  * @author: shrek.zhou
  */
-interface SearchDomain {
+public interface SearchDomainService {
     Object[] getDomains(List<SearchCriteria> criterias);
 }

@@ -11,7 +11,7 @@ import java.util.List;
  *
  * @author: shrek.zhou
  */
-class SearchDomainImpl implements SearchDomain {
+public class SearchDomainServiceImpl implements SearchDomainService {
 
     @Override
     public Object[] getDomains(List<SearchCriteria> criterias) {

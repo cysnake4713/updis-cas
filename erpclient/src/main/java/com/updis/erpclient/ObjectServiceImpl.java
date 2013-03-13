@@ -57,8 +57,8 @@ public class ObjectServiceImpl extends ServiceBase implements ObjectService {
 
     @Override
     public List<Integer> search(List<SearchCriteria> domain) throws Exception {
-        SearchDomain searchDomain = new SearchDomainImpl();
-        Object[] ids = (Object[]) this.execute("search", searchDomain.getDomains(domain));
+        SearchDomainService searchDomainService = new SearchDomainServiceImpl();
+        Object[] ids = (Object[]) this.execute("search", searchDomainService.getDomains(domain));
         List<Integer> ret = new ArrayList<Integer>(ids.length);
         for (Object id : ids) {
             ret.add((Integer) id);

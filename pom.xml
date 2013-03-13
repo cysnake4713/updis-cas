@@ -15,7 +15,6 @@
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
     <modules>
-        <module>mobile</module>
         <module>erpclient</module>
         <module>web</module>
     </modules>

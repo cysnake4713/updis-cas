@@ -8,6 +8,8 @@
           <element id="module-output" name="web" />
         </element>
         <element id="directory" name="lib">
+          <element id="library" level="project" name="Maven: org.codehaus.jackson:jackson-mapper-asl:1.9.9" />
+          <element id="library" level="project" name="Maven: org.codehaus.jackson:jackson-core-asl:1.9.9" />
           <element id="library" level="project" name="Maven: org.springframework:spring-webmvc:3.2.1.RELEASE" />
           <element id="library" level="project" name="Maven: org.springframework:spring-expression:3.2.1.RELEASE" />
           <element id="library" level="project" name="Maven: org.springframework:spring-core:3.2.1.RELEASE" />
@@ -20,6 +22,14 @@
           <element id="library" level="project" name="Maven: org.springframework.security:spring-security-web:3.1.3.RELEASE" />
           <element id="library" level="project" name="Maven: org.springframework:spring-web:3.2.1.RELEASE" />
           <element id="library" level="project" name="Maven: org.springframework:spring-aop:3.2.1.RELEASE" />
+          <element id="archive" name="erpclient-1.0-SNAPSHOT.jar">
+            <element id="module-output" name="erpclient" />
+          </element>
+          <element id="library" level="project" name="Maven: org.apache:xmlrpc-client:3.1.3" />
+          <element id="library" level="project" name="Maven: org.apache:xmlrpc-common:3.1.3" />
+          <element id="library" level="project" name="Maven: org.apache:ws-commons-util:1.0.2" />
+          <element id="library" level="project" name="Maven: org.springframework:spring-oxm:3.2.0.RELEASE" />
+          <element id="library" level="project" name="Maven: commons-lang:commons-lang:2.5" />
         </element>
       </element>
     </root>

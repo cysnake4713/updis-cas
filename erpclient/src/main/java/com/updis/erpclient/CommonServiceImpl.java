@@ -1,5 +1,7 @@
 package com.updis.erpclient;
 
+import org.springframework.stereotype.Component;
+
 import java.util.Map;
 
 /**
@@ -9,6 +11,7 @@ import java.util.Map;
  *
  * @author: shrek.zhou
  */
+@Component
 public class CommonServiceImpl extends ServiceBase implements CommonService {
     private static String SERVICE_NAME = "common";
 

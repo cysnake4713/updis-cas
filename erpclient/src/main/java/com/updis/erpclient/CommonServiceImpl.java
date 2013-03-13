@@ -1,6 +1,5 @@
 package com.updis.erpclient;
 
-import java.net.MalformedURLException;
 import java.util.Map;
 
 /**
@@ -10,26 +9,32 @@ import java.util.Map;
  *
  * @author: shrek.zhou
  */
-public class CommonServiceImpl implements CommonService {
-    private static String SERVER_URL = "http://localhost:8069/xmlrpc/common";
-    private Connector connector;
-
-    public CommonServiceImpl() throws MalformedURLException {
-        this.connector = new XMLRPCConnector(SERVER_URL);
-    }
+public class CommonServiceImpl extends ServiceBase implements CommonService {
+    private static String SERVICE_NAME = "common";
 
     @Override
-    public boolean login(String db, String login, String password) throws Exception {
-        return (Boolean) this.connector.send("login", db, login, password);
+    public Integer login(String db, String login, String password) throws Exception {
+        return (Integer) this.getConnector().send("login", db, login, password);
     }
 
     @Override
     public Map version() throws Exception {
-        return (Map) this.connector.send("version");
+        return (Map) this.getConnector().send("version");
     }
 
     @Override
-    public boolean authenticate(String db, String login, String password, Map userAgentEnv) throws Exception {
-        return (Boolean) this.connector.send("authenticate", db, login, password, userAgentEnv);
+    public Integer authenticate(String db, String login, String password, Map userAgentEnv) throws Exception {
+        return (Integer) this.getConnector().send("authenticate", db, login, password, userAgentEnv);
     }
+
+    @Override
+    public String about() throws Exception {
+        return (String) this.getConnector().send("about");
+    }
+
+    @Override
+    String getServiceName() {
+        return SERVICE_NAME;
+    }
+
 }

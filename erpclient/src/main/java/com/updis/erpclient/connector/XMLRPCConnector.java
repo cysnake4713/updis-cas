@@ -1,4 +1,4 @@
-package com.updis.erpclient;
+package com.updis.erpclient.connector;
 
 import org.apache.xmlrpc.XmlRpcException;
 import org.apache.xmlrpc.client.XmlRpcClient;
@@ -21,8 +21,11 @@ public class XMLRPCConnector implements Connector {
     public XMLRPCConnector(String serverUrl) throws MalformedURLException {
         XmlRpcClientConfigImpl config = new XmlRpcClientConfigImpl();
         config.setServerURL(new URL(serverUrl));
+        config.setEnabledForExceptions(true);
+        config.setEnabledForExtensions(true);
         client = new XmlRpcClient();
         client.setConfig(config);
+
     }
 
     public String getServerUrl() {

@@ -10,9 +10,11 @@ import java.util.Map;
  * @author: shrek.zhou
  */
 public interface CommonService extends Service {
-    boolean login(String db, String login, String password) throws Exception;
+    Integer login(String db, String login, String password) throws Exception;
 
     Map version() throws Exception;
 
-    boolean authenticate(String db, String login, String password, Map userAgentEnv) throws Exception;
+    Integer authenticate(String db, String login, String password, Map userAgentEnv) throws Exception;
+
+    String about() throws Exception;
 }

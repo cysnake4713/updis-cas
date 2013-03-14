@@ -6,6 +6,10 @@
        http://www.springframework.org/schema/beans/spring-beans.xsd
        http://www.springframework.org/schema/security
        http://www.springframework.org/schema/security/spring-security.xsd">
+    <bean id="serviceProperties" class="org.springframework.security.cas.ServiceProperties">
+        <property name="service" value="https://localhost:8443/updis/j_spring_cas_security_check"/>
+        <property name="sendRenew" value="false"/>
+    </bean>
     <security:http auto-config="true">
         <security:intercept-url pattern="/**" access="ROLE_USER" />
     </security:http>

@@ -30,6 +30,7 @@
           <element id="library" level="project" name="Maven: org.apache:ws-commons-util:1.0.2" />
           <element id="library" level="project" name="Maven: org.springframework:spring-oxm:3.2.0.RELEASE" />
           <element id="library" level="project" name="Maven: commons-lang:commons-lang:2.5" />
+          <element id="library" level="project" name="Maven: javax.servlet:javax.servlet-api:3.0.1" />
         </element>
       </element>
     </root>

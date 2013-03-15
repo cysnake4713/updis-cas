@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="upcas:war">
+    <output-path>$PROJECT_DIR$/upcas/target</output-path>
+    <root id="archive" name="cas.war">
+      <element id="artifact" artifact-name="upcas:war exploded" />
+    </root>
+  </artifact>
+</component>

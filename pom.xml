@@ -17,11 +17,14 @@
     <modules>
         <module>erpclient</module>
         <module>web</module>
+        <module>upcas</module>
+        <module>cas-overlay-management-updis</module>
     </modules>
 
     <properties>
         <spring.version>3.2.1.RELEASE</spring.version>
         <spring.security.version>3.1.3.RELEASE</spring.security.version>
+        <cas.version>4.0.0-SNAPSHOT</cas.version>
     </properties>
 
     <repositories>
@@ -29,6 +32,20 @@
             <id>springsource-repo</id>
             <name>SpringSource Repository</name>
             <url>http://repo.springsource.org/release</url>
+        </repository>
+        <!--<repository>-->
+            <!--<id>ja-sig</id>-->
+            <!--<url>http://oss.sonatype.org/content/repositories/releases/ </url>-->
+        <!--</repository>-->
+        <repository>
+            <id>ja-sig-snapshots</id>
+            <url>http://oss.sonatype.org/content/repositories/snapshots/ </url>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
         </repository>
     </repositories>
 </project>

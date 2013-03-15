@@ -10,8 +10,8 @@
         <property name="service" value="https://localhost:8443/updis/j_spring_cas_security_check"/>
         <property name="sendRenew" value="false"/>
     </bean>
-    <security:http auto-config="true">
-        <security:intercept-url pattern="/**" access="ROLE_USER" />
+    <security:http auto-config="true" entry-point-ref="">
+        <security:intercept-url pattern="/**" access="ROLE_USER"/>
     </security:http>
     <security:authentication-manager>
         <security:authentication-provider>

@@ -1,5 +1,49 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module org.jetbrains.idea.maven.project.MavenProjectsManager.isMavenModule="true" type="JAVA_MODULE" version="4">
+  <component name="FacetManager">
+    <facet type="Spring" name="Spring">
+      <configuration>
+        <fileset id="fileset1" name="XML Application Context" removed="false">
+          <file>file://$MODULE_DIR$/cas-overlay-server-webapp-updis/target/war/work/org.jasig.cas/cas-server-webapp/WEB-INF/unused-spring-configuration/lppe-configuration.xml</file>
+          <file>file://$MODULE_DIR$/cas-overlay-server-webapp-updis/target/upcas-1.0-SNAPSHOT/WEB-INF/unused-spring-configuration/mbeans.xml</file>
+          <file>file://$MODULE_DIR$/cas-overlay-server-webapp-updis/target/upcas-1.0-SNAPSHOT/WEB-INF/cas-servlet.xml</file>
+          <file>file://$MODULE_DIR$/cas-overlay-server-webapp-updis/target/war/work/org.jasig.cas/cas-server-webapp/WEB-INF/unused-spring-configuration/mbeans.xml</file>
+          <file>file://$MODULE_DIR$/cas-overlay-server-webapp-updis/target/upcas-1.0-SNAPSHOT/WEB-INF/deployerConfigContext.xml</file>
+          <file>file://$MODULE_DIR$/cas-overlay-server-webapp-updis/target/war/work/org.jasig.cas/cas-server-webapp/WEB-INF/restlet-servlet.xml</file>
+          <file>file://$MODULE_DIR$/cas-overlay-server-webapp-updis/target/war/work/org.jasig.cas/cas-server-webapp/WEB-INF/spring-configuration/applicationContext.xml</file>
+          <file>file://$MODULE_DIR$/cas-overlay-server-webapp-updis/target/war/work/org.jasig.cas/cas-server-webapp/WEB-INF/spring-configuration/securityContext.xml</file>
+          <file>file://$MODULE_DIR$/cas-overlay-server-webapp-updis/target/war/work/org.jasig.cas/cas-server-webapp/WEB-INF/spring-configuration/propertyFileConfigurer.xml</file>
+          <file>file://$MODULE_DIR$/cas-overlay-server-webapp-updis/target/war/work/org.jasig.cas/cas-server-webapp/WEB-INF/unused-spring-configuration/clearpass-configuration.xml</file>
+          <file>file://$MODULE_DIR$/cas-overlay-server-webapp-updis/target/war/work/org.jasig.cas/cas-server-webapp/WEB-INF/spring-configuration/ticketRegistry.xml</file>
+          <file>file://$MODULE_DIR$/cas-overlay-server-webapp-updis/target/war/work/org.jasig.cas/cas-server-webapp/WEB-INF/spring-configuration/filters.xml</file>
+          <file>file://$MODULE_DIR$/cas-overlay-server-webapp-updis/target/war/work/org.jasig.cas/cas-server-webapp/WEB-INF/spring-configuration/log4jConfiguration.xml</file>
+          <file>file://$MODULE_DIR$/cas-overlay-server-webapp-updis/target/war/work/org.jasig.cas/cas-server-webapp/WEB-INF/cas-servlet.xml</file>
+          <file>file://$MODULE_DIR$/cas-overlay-server-webapp-updis/target/war/work/org.jasig.cas/cas-server-webapp/WEB-INF/spring-configuration/argumentExtractorsConfiguration.xml</file>
+          <file>file://$MODULE_DIR$/cas-overlay-server-webapp-updis/target/upcas-1.0-SNAPSHOT/WEB-INF/restlet-servlet.xml</file>
+          <file>file://$MODULE_DIR$/cas-overlay-server-webapp-updis/target/war/work/org.jasig.cas/cas-server-webapp/WEB-INF/spring-configuration/auditTrailContext.xml</file>
+          <file>file://$MODULE_DIR$/cas-overlay-server-webapp-updis/target/war/work/org.jasig.cas/cas-server-webapp/WEB-INF/spring-configuration/uniqueIdGenerators.xml</file>
+          <file>file://$MODULE_DIR$/cas-overlay-server-webapp-updis/target/upcas-1.0-SNAPSHOT/WEB-INF/spring-configuration/applicationContext.xml</file>
+          <file>file://$MODULE_DIR$/cas-overlay-server-webapp-updis/target/upcas-1.0-SNAPSHOT/WEB-INF/spring-configuration/auditTrailContext.xml</file>
+          <file>file://$MODULE_DIR$/cas-overlay-server-webapp-updis/target/war/work/org.jasig.cas/cas-server-webapp/WEB-INF/spring-configuration/warnCookieGenerator.xml</file>
+          <file>file://$MODULE_DIR$/cas-overlay-server-webapp-updis/target/war/work/org.jasig.cas/cas-server-webapp/WEB-INF/spring-configuration/ticketExpirationPolicies.xml</file>
+          <file>file://$MODULE_DIR$/cas-overlay-server-webapp-updis/target/upcas-1.0-SNAPSHOT/WEB-INF/spring-configuration/filters.xml</file>
+          <file>file://$MODULE_DIR$/cas-overlay-server-webapp-updis/target/upcas-1.0-SNAPSHOT/WEB-INF/spring-configuration/propertyFileConfigurer.xml</file>
+          <file>file://$MODULE_DIR$/cas-overlay-server-webapp-updis/target/war/work/org.jasig.cas/cas-server-webapp/WEB-INF/spring-configuration/ticketGrantingTicketCookieGenerator.xml</file>
+          <file>file://$MODULE_DIR$/cas-overlay-server-webapp-updis/target/upcas-1.0-SNAPSHOT/WEB-INF/spring-configuration/ticketExpirationPolicies.xml</file>
+          <file>file://$MODULE_DIR$/cas-overlay-server-webapp-updis/target/upcas-1.0-SNAPSHOT/WEB-INF/spring-configuration/ticketRegistry.xml</file>
+          <file>file://$MODULE_DIR$/cas-overlay-server-webapp-updis/target/upcas-1.0-SNAPSHOT/WEB-INF/spring-configuration/warnCookieGenerator.xml</file>
+          <file>file://$MODULE_DIR$/cas-overlay-server-webapp-updis/target/upcas-1.0-SNAPSHOT/WEB-INF/unused-spring-configuration/clearpass-configuration.xml</file>
+          <file>file://$MODULE_DIR$/cas-overlay-server-webapp-updis/target/war/work/org.jasig.cas/cas-server-webapp/WEB-INF/deployerConfigContext.xml</file>
+          <file>file://$MODULE_DIR$/cas-overlay-server-webapp-updis/target/upcas-1.0-SNAPSHOT/WEB-INF/spring-configuration/argumentExtractorsConfiguration.xml</file>
+          <file>file://$MODULE_DIR$/cas-overlay-server-webapp-updis/target/upcas-1.0-SNAPSHOT/WEB-INF/spring-configuration/securityContext.xml</file>
+          <file>file://$MODULE_DIR$/cas-overlay-server-webapp-updis/target/upcas-1.0-SNAPSHOT/WEB-INF/unused-spring-configuration/lppe-configuration.xml</file>
+          <file>file://$MODULE_DIR$/cas-overlay-server-webapp-updis/target/upcas-1.0-SNAPSHOT/WEB-INF/spring-configuration/log4jConfiguration.xml</file>
+          <file>file://$MODULE_DIR$/cas-overlay-server-webapp-updis/target/upcas-1.0-SNAPSHOT/WEB-INF/spring-configuration/uniqueIdGenerators.xml</file>
+          <file>file://$MODULE_DIR$/cas-overlay-server-webapp-updis/target/upcas-1.0-SNAPSHOT/WEB-INF/spring-configuration/ticketGrantingTicketCookieGenerator.xml</file>
+        </fileset>
+      </configuration>
+    </facet>
+  </component>
   <component name="NewModuleRootManager" inherit-compiler-output="false">
     <output url="file://$MODULE_DIR$/target/classes" />
     <output-test url="file://$MODULE_DIR$/target/test-classes" />

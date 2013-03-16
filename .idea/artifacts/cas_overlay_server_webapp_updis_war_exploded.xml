@@ -1,11 +1,11 @@
 <component name="ArtifactManager">
-  <artifact type="exploded-war" name="upcas:war exploded">
-    <output-path>$PROJECT_DIR$/upcas/target/cas-overlay-server-webapp-updis-1.0-SNAPSHOT</output-path>
+  <artifact type="exploded-war" name="cas-overlay-server-webapp-updis:war exploded">
+    <output-path>$PROJECT_DIR$/cas-overlay-server-webapp-updis/target/cas-overlay-server-webapp-updis-1.0-SNAPSHOT</output-path>
     <root id="root">
-      <element id="javaee-facet-resources" facet="upcas/web/Web" />
+      <element id="javaee-facet-resources" facet="cas-overlay-server-webapp-updis/web/Web" />
       <element id="directory" name="WEB-INF">
         <element id="directory" name="classes">
-          <element id="module-output" name="upcas" />
+          <element id="module-output" name="cas-overlay-server-webapp-updis" />
         </element>
         <element id="directory" name="lib">
           <element id="library" level="project" name="Maven: org.springframework:spring-context:3.2.1.RELEASE" />

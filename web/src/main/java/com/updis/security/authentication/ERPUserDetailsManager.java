@@ -4,6 +4,7 @@ import com.updis.erpclient.ObjectService;
 import com.updis.erpclient.config.ERPConfig;
 import com.updis.erpclient.criteria.Criteria;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -28,6 +29,8 @@ public class ERPUserDetailsManager implements UserDetailsManager {
     private ObjectService objectService;
     @Autowired
     private ERPConfig erpConfig;
+    @Autowired
+    private Environment environment;
 
     @Override
     public void createUser(UserDetails user) {
@@ -59,7 +62,8 @@ public class ERPUserDetailsManager implements UserDetailsManager {
         List<Criteria> criterias = new ArrayList<Criteria>();
         criterias.add(new Criteria("login", "=", username));
         try {
-            List<Map<String, Object>> maps = objectService.searchRead(erpConfig, criterias);
+            ERPConfig config = new ERPConfig(environment.getProperty("updis.erp.db"), 1, environment.getProperty("updis.erp.super.password"),"res.users");
+            List<Map<String, Object>> maps = objectService.searchRead(config, criterias);
 //            List<Map<String, Object>> maps = objectService.searchRead(erpConfig, criterias, Arrays.asList(new String[]{"name", "login", "password"}));
             Map<String, Object> stringObjectMap = maps.get(0);
             Set<GrantedAuthority> grantedAuthorities = new HashSet<GrantedAuthority>();

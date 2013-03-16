@@ -31,13 +31,28 @@
             <type>war</type>
             <scope>runtime</scope>
         </dependency>
+        <dependency>
+            <groupId>org.jasig.cas</groupId>
+            <artifactId>cas-server-core</artifactId>
+            <version>${cas.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jasig.cas</groupId>
+            <artifactId>cas-server-support-generic</artifactId>
+            <version>${cas.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.updis</groupId>
+            <artifactId>erpclient</artifactId>
+        </dependency>
         <!--<dependency>-->
-            <!--<groupId>org.jasig.cas</groupId>-->
-            <!--<artifactId>cas-management-app</artifactId>-->
-            <!--<version>${cas.version}</version>-->
-            <!--<type>war</type>-->
-            <!--<scope>runtime</scope>-->
+        <!--<groupId>org.jasig.cas</groupId>-->
+        <!--<artifactId>cas-management-app</artifactId>-->
+        <!--<version>${cas.version}</version>-->
+        <!--<type>war</type>-->
+        <!--<scope>runtime</scope>-->
         <!--</dependency>-->
+
     </dependencies>
 
 

@@ -12,23 +12,48 @@
         <property name="service" value="https://${cas.service.host}/updis/j_spring_cas_security_check"/>
         <property name="sendRenew" value="false"/>
     </bean>
-    <context:property-placeholder system-properties-mode="OVERRIDE" properties-ref="environment" />
+    <bean id="casAuthenticationFilter" class="org.springframework.security.cas.web.CasAuthenticationFilter">
+        <property name="authenticationManager" ref="authenticationManager"/>
+    </bean>
+    <context:property-placeholder system-properties-mode="OVERRIDE" properties-ref="environment"/>
     <util:properties id="environment">
-        <prop key="cas.server.host">localhost:8443</prop>
-        <prop key="cas.service.host">localhost:8443</prop>
+        <prop key="cas.server.host">zhouguangwen-pc:8443</prop>
+        <prop key="cas.service.host">zhouguangwen-pc:8443</prop>
     </util:properties>
     <bean id="casAuthenticationEntryPoint" class="org.springframework.security.cas.web.CasAuthenticationEntryPoint">
         <property name="serviceProperties" ref="serviceProperties"/>
-        <property name="loginUrl" value="http://${cas.server.host}/cas/login" />
+        <property name="loginUrl" value="https://${cas.server.host}/cas/login"/>
     </bean>
-    <security:http auto-config="true" entry-point-ref="casAuthenticationEntryPoint">
+    <security:http entry-point-ref="casAuthenticationEntryPoint">
         <security:intercept-url pattern="/**" access="ROLE_USER"/>
+        <security:custom-filter ref="casAuthenticationFilter" position="CAS_FILTER"/>
     </security:http>
-    <security:authentication-manager>
-        <security:authentication-provider>
-            <security:user-service>
-                <security:user name="shrek" authorities="ROLE_USER" password="shrek"/>
-            </security:user-service>
-        </security:authentication-provider>
+    <!--<security:authentication-manager>-->
+    <!--<security:authentication-provider>-->
+    <!--<security:user-service>-->
+    <!--<security:user name="shrek" authorities="ROLE_USER" password="shrek"/>-->
+    <!--</security:user-service>-->
+    <!--</security:authentication-provider>-->
+    <!--</security:authentication-manager>-->
+    <bean id="casAuthenticationProvider"
+          class="org.springframework.security.cas.authentication.CasAuthenticationProvider">
+        <property name="authenticationUserDetailsService">
+            <bean class="org.springframework.security.core.userdetails.UserDetailsByNameServiceWrapper">
+                <constructor-arg ref="userDetailsService"/>
+            </bean>
+        </property>
+        <property name="serviceProperties" ref="serviceProperties"/>
+        <property name="ticketValidator">
+            <bean class="org.jasig.cas.client.validation.Cas20ServiceTicketValidator">
+                <constructor-arg index="0" value="https://${cas.server.host}/cas"/>
+            </bean>
+        </property>
+        <property name="key" value="updis_cas_auth_provider"/>
+    </bean>
+    <security:authentication-manager alias="authenticationManager">
+        <security:authentication-provider ref="casAuthenticationProvider"/>
     </security:authentication-manager>
+    <security:user-service id="userDetailsService">
+        <security:user name="admin" authorities="ROLE_USER" password="Freeborders#1"/>
+    </security:user-service>
 </beans>

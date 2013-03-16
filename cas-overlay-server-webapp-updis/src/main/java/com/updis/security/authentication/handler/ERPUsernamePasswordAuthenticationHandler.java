@@ -4,6 +4,8 @@ import com.updis.erpclient.CommonService;
 import com.updis.erpclient.ObjectService;
 import com.updis.erpclient.config.ERPConfig;
 import org.jasig.cas.authentication.handler.AuthenticationException;
+import org.jasig.cas.authentication.handler.BadCredentialsAuthenticationException;
+import org.jasig.cas.authentication.handler.UnknownUsernameAuthenticationException;
 import org.jasig.cas.authentication.handler.support.AbstractUsernamePasswordAuthenticationHandler;
 import org.jasig.cas.authentication.principal.UsernamePasswordCredentials;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,24 +21,25 @@ import org.springframework.core.env.Environment;
  * To change this template use File | Settings | File Templates.
  */
 public class ERPUsernamePasswordAuthenticationHandler extends AbstractUsernamePasswordAuthenticationHandler {
-    private ERPConfig erpAuthenticateConfig;
-
-    @Autowired
-    private ObjectService objectService;
+    private String erpdb;
     @Autowired
     private CommonService commonService;
 
     @Override
     protected boolean authenticateUsernamePasswordInternal(UsernamePasswordCredentials credentials) throws AuthenticationException {
-        commonService.authenticate()
-        return false;  //To change body of implemented methods use File | Settings | File Templates.
+        try {
+            Integer uid = commonService.login(erpdb, credentials.getUsername(), credentials.getPassword());
+            return true;
+        } catch (Exception e) {
+            throw new BadCredentialsAuthenticationException();
+        }
     }
 
-    public String getUpdisERPServerUrl() {
-        return updisERPServerUrl;
+    public String getErpdb() {
+        return erpdb;
     }
 
-    public void setUpdisERPServerUrl(String updisERPServerUrl) {
-        this.updisERPServerUrl = updisERPServerUrl;
+    public void setErpdb(String erpdb) {
+        this.erpdb = erpdb;
     }
 }

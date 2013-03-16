@@ -15,19 +15,31 @@
     <bean id="casAuthenticationFilter" class="org.springframework.security.cas.web.CasAuthenticationFilter">
         <property name="authenticationManager" ref="authenticationManager"/>
     </bean>
-    <context:property-placeholder system-properties-mode="OVERRIDE" properties-ref="environment"/>
-    <util:properties id="environment">
-        <prop key="cas.server.host">zhouguangwen-pc:8443</prop>
-        <prop key="cas.service.host">zhouguangwen-pc:8443</prop>
-    </util:properties>
+    <!--<context:property-placeholder system-properties-mode="OVERRIDE" properties-ref="environment"/>-->
+    <!--<util:properties id="environment">-->
+    <!--<prop key="cas.server.host">zhouguangwen-pc:8443</prop>-->
+    <!--<prop key="cas.service.host">zhouguangwen-pc:8443</prop>-->
+    <!--</util:properties>-->
     <bean id="casAuthenticationEntryPoint" class="org.springframework.security.cas.web.CasAuthenticationEntryPoint">
         <property name="serviceProperties" ref="serviceProperties"/>
         <property name="loginUrl" value="https://${cas.server.host}/cas/login"/>
     </bean>
+    <bean id="singleSignOutFilter" class="org.jasig.cas.client.session.SingleSignOutFilter"/>
+    <bean id="requestSingleLogoutFilter" class="org.springframework.security.web.authentication.logout.LogoutFilter">
+        <constructor-arg value="https://${cas.server.host}/cas/logout"/>
+        <constructor-arg>
+            <bean class="org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler"/>
+        </constructor-arg>
+        <property name="filterProcessesUrl" value="/j_spring_cas_security_logout"/>
+    </bean>
     <security:http entry-point-ref="casAuthenticationEntryPoint">
         <security:intercept-url pattern="/**" access="ROLE_USER"/>
         <security:custom-filter ref="casAuthenticationFilter" position="CAS_FILTER"/>
+        <security:logout logout-success-url="/cas-logout.jsp"/>
+        <security:custom-filter ref="requestSingleLogoutFilter" before="LOGOUT_FILTER"/>
+        <security:custom-filter ref="singleSignOutFilter" before="CAS_FILTER"/>
     </security:http>
+
     <!--<security:authentication-manager>-->
     <!--<security:authentication-provider>-->
     <!--<security:user-service>-->
@@ -39,7 +51,7 @@
           class="org.springframework.security.cas.authentication.CasAuthenticationProvider">
         <property name="authenticationUserDetailsService">
             <bean class="org.springframework.security.core.userdetails.UserDetailsByNameServiceWrapper">
-                <constructor-arg ref="userDetailsService"/>
+                <constructor-arg ref="userDetailsManager"/>
             </bean>
         </property>
         <property name="serviceProperties" ref="serviceProperties"/>
@@ -53,7 +65,10 @@
     <security:authentication-manager alias="authenticationManager">
         <security:authentication-provider ref="casAuthenticationProvider"/>
     </security:authentication-manager>
-    <security:user-service id="userDetailsService">
-        <security:user name="admin" authorities="ROLE_USER" password="Freeborders#1"/>
-    </security:user-service>
+    <bean id="userDetailsManager" class="com.updis.security.authentication.ERPUserDetailsManager">
+        <property name="db" value="${updis.erp.db}"/>
+    </bean>
+    <!--<security:user-service id="userDetailsService">-->
+    <!--<security:user name="admin" authorities="ROLE_USER" password="Freeborders#1"/>-->
+    <!--</security:user-service>-->
 </beans>

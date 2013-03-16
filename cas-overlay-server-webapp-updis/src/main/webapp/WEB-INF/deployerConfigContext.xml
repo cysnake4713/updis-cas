@@ -121,7 +121,7 @@
                 <bean class="org.jasig.cas.authentication.handler.support.HttpBasedServiceCredentialsAuthenticationHandler"
                       p:httpClient-ref="httpClient"/>
                 <bean class="com.updis.security.authentication.handler.ERPUsernamePasswordAuthenticationHandler">
-                    <property name="updisERPServerUrl" value="${updis.erp.server.url}"/>
+                    <property name="erpdb" value="${updis.erp.db}"/>
                 </bean>
                 <!--
                     | This is the authentication handler declaration that every CAS deployer will need to change before deploying CAS
@@ -212,4 +212,5 @@
             </list>
         </property>
     </bean>
+    <context:component-scan base-package="com.updis.erpclient"/>
 </beans>

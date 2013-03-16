@@ -1,5 +1,6 @@
 package com.updis.erpclient;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 
@@ -13,4 +14,5 @@ import org.springframework.context.annotation.PropertySource;
 @Configuration
 @PropertySource("classpath:erp.properties")
 class AppConfig {
+
 }

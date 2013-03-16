@@ -4,6 +4,7 @@ import com.updis.erpclient.ObjectService;
 import com.updis.erpclient.config.ERPConfig;
 import com.updis.erpclient.criteria.Criteria;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,13 +26,14 @@ import java.util.Map;
 public class MessageCategoryController {
     @Autowired
     private ObjectService objectService;
+    @Autowired
+    private ERPConfig erpConfig;
 //    @Autowired
 //    private SearchDomainService searchDomainService;
 
     @RequestMapping(value = "list")
     public List<Map<String, Object>> messageCategoryList() throws Exception {
         List<Criteria> searchCriterias = new ArrayList<Criteria>();
-        ERPConfig erpConfig = new ERPConfig("updis", 1, "Freeborders#1", "res.partner");
         List<Map<String, Object>> ret = objectService.searchRead(erpConfig, searchCriterias);
         return ret;
     }

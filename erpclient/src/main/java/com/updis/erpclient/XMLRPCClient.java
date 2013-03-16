@@ -28,5 +28,9 @@ public class XMLRPCClient {
         ERPConfig erpConfig = new ERPConfig("updis",1,"Freeborders#1","res.partner");
         List<Integer> integers = objectService.search(erpConfig, criterias);
         System.out.println(integers);
+
+        CommonService commonService = ctx.getBean(CommonService.class);
+        Integer uid = commonService.login("updis","admin","Freeborders#1");
+        System.out.println(uid);
     }
 }

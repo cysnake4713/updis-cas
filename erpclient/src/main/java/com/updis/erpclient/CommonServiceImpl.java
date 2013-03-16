@@ -25,10 +25,10 @@ public class CommonServiceImpl extends ServiceBase implements CommonService {
         return (Map) this.getConnector().send("version");
     }
 
-    @Override
-    public Integer authenticate(String db, String login, String password, Map userAgentEnv) throws Exception {
-        return (Integer) this.getConnector().send("authenticate", db, login, password, userAgentEnv);
-    }
+//    @Override
+//    public Integer authenticate(String db, String login, String password, Map userAgentEnv) throws Exception {
+//        return (Integer) this.getConnector().send("authenticate", db, login, password, userAgentEnv);
+//    }
 
     @Override
     public String about() throws Exception {

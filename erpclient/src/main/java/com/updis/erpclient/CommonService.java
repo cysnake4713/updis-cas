@@ -14,7 +14,7 @@ public interface CommonService extends Service {
 
     Map version() throws Exception;
 
-    Integer authenticate(String db, String login, String password, Map userAgentEnv) throws Exception;
+//    Integer authenticate(String db, String login, String password, Map userAgentEnv) throws Exception;
 
     String about() throws Exception;
 }

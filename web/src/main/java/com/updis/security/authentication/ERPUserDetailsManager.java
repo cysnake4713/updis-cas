@@ -4,6 +4,7 @@ import com.updis.erpclient.ObjectService;
 import com.updis.erpclient.config.ERPConfig;
 import com.updis.erpclient.criteria.Criteria;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;

@@ -19,8 +19,8 @@
       <configuration>
         <fileset id="fileset1" name="XML Application Context" removed="false">
           <file>file://$MODULE_DIR$/src/main/webapp/WEB-INF/spring/applicationContext.xml</file>
-          <file>file://$MODULE_DIR$/src/main/webapp/WEB-INF/spring/dispatchServlet/servlet-context.xml</file>
-          <file>file://$MODULE_DIR$/src/main/webapp/WEB-INF/spring/security-app-context.xml</file>
+          <file>file://$MODULE_DIR$/src/main/webapp/WEB-INF/spring/dispatchServlet/servletContext.xml</file>
+          <file>file://$MODULE_DIR$/src/main/webapp/WEB-INF/spring/securityAppContext.xml</file>
         </fileset>
       </configuration>
     </facet>

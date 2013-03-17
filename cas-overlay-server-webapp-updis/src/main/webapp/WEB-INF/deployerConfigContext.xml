@@ -140,33 +140,52 @@
     Bean that defines the attributes that a service may return.  This example uses the Stub/Mock version.  A real implementation
     may go against a database or LDAP server.  The id should remain "attributeRepository" though.
      -->
-    <bean id="attributeRepository"
-          class="org.jasig.services.persondir.support.StubPersonAttributeDao">
-        <property name="backingMap">
-            <map>
-                <entry key="uid" value="uid"/>
-                <entry key="eduPersonAffiliation" value="eduPersonAffiliation"/>
-                <entry key="groupMembership" value="groupMembership"/>
-            </map>
-        </property>
+    <!--<bean id="attributeRepository"-->
+    <!--class="org.jasig.services.persondir.support.StubPersonAttributeDao">-->
+    <!--<property name="backingMap">-->
+    <!--<map>-->
+    <!--<entry key="uid" value="uid"/>-->
+    <!--<entry key="db" value="db"/>-->
+    <!--<entry key="password" value="password"/>-->
+    <!--&lt;!&ndash;<entry key="eduPersonAffiliation" value="eduPersonAffiliation"/>&ndash;&gt;-->
+    <!--&lt;!&ndash;<entry key="groupMembership" value="groupMembership"/>&ndash;&gt;-->
+    <!--</map>-->
+    <!--</property>-->
+    <!--</bean>-->
+    <bean id="attributeRepository" class="com.updis.security.ERPPersonAttribute">
+        <property name="db" value="${updis.erp.db}"/>
+        <property name="erpUID" value="${updis.erp.admin.id}"/>
+        <property name="password" value="${updis.erp.admin.pass}"/>
     </bean>
-
     <!--
-    Sample, in-memory data store for the ServiceRegistry. A real implementation
-    would probably want to replace this with the JPA-backed ServiceRegistry DAO
-    The name of this bean should remain "serviceRegistryDao".
-     -->
+        Sample, in-memory data store for the ServiceRegistry. A real implementation
+        would probably want to replace this with the JPA-backed ServiceRegistry DAO
+        The name of this bean should remain "serviceRegistryDao".
+         -->
     <bean
             id="serviceRegistryDao"
             class="org.jasig.cas.services.InMemoryServiceRegistryDaoImpl">
         <property name="registeredServices">
             <list>
                 <bean class="org.jasig.cas.services.RegexRegisteredService">
-                    <property name="id" value="0"/>
+                    <property name="id" value="3"/>
                     <property name="name" value="HTTP and IMAP"/>
                     <property name="description" value="Allows HTTP(S) and IMAP(S) protocols"/>
                     <property name="serviceId" value="^(https?|imaps?)://.*"/>
                     <property name="evaluationOrder" value="10000001"/>
+                </bean>
+                <bean class="org.jasig.cas.services.RegisteredServiceImpl">
+                    <property name="id" value="0"/>
+                    <property name="name" value="HTTP"/>
+                    <property name="description" value="oauth wrapper callback url"/>
+                    <property name="serviceId" value="http://mycasserverwithoauthwrapper/oauth2.0/callbackAuthorize"/>
+                </bean>
+
+                <bean class="org.jasig.cas.services.RegisteredServiceImpl">
+                    <property name="id" value="1"/>
+                    <property name="name" value="the_key_for_caswrapper1"/>
+                    <property name="description" value="the_secret_for_caswrapper1"/>
+                    <property name="serviceId" value="http://mycasserver/login"/>
                 </bean>
                 <!--
                 Use the following definition instead of the above to further restrict access

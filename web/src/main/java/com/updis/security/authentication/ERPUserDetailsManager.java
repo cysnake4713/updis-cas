@@ -69,7 +69,7 @@ public class ERPUserDetailsManager implements UserDetailsManager {
             Map<String, Object> stringObjectMap = maps.get(0);
             Set<GrantedAuthority> grantedAuthorities = new HashSet<GrantedAuthority>();
             grantedAuthorities.add(new SimpleGrantedAuthority("ROLE_USER"));
-            erpConfig.setUid(Integer.valueOf((String) stringObjectMap.get("id")));
+            erpConfig.setUid((Integer)stringObjectMap.get("id"));
             erpConfig.setPassword((String) stringObjectMap.get("password"));
             return new ERPUser(username, grantedAuthorities, stringObjectMap, stringObjectMap.get("password").toString());
         } catch (Exception e) {

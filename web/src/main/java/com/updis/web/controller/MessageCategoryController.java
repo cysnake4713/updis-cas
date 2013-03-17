@@ -1,4 +1,4 @@
-package com.updis.web;
+package com.updis.web.controller;
 
 import com.updis.erpclient.ObjectService;
 import com.updis.erpclient.config.ERPConfig;
@@ -34,6 +34,7 @@ public class MessageCategoryController {
     @RequestMapping(value = "list")
     public List<Map<String, Object>> messageCategoryList() throws Exception {
         List<Criteria> searchCriterias = new ArrayList<Criteria>();
+        erpConfig.setModelName("message.category");
         List<Map<String, Object>> ret = objectService.searchRead(erpConfig, searchCriterias);
         return ret;
     }

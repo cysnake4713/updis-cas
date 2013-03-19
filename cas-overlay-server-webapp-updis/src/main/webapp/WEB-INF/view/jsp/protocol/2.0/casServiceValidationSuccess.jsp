@@ -26,7 +26,7 @@
         <cas:user>${fn:escapeXml(assertion.chainedAuthentications[fn:length(assertion.chainedAuthentications)-1].principal.id)}</cas:user>
         <c:forEach var="auth" items="${assertion.chainedAuthentications}">
             <c:forEach var="attr" items="${auth.principal.attributes}">
-                <cas:attribute name="${fn:escapeXml(attr.key)}" value="${fn:escapeXml(attr.value)}" />
+                <cas:${fn:escapeXml(attr.key)}>${fn:escapeXml(attr.value)}</cas:${fn:escapeXml(attr.key)}>
             </c:forEach>
         </c:forEach>
         <c:if test="${not empty pgtIou}">

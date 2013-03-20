@@ -5,6 +5,8 @@
   </component>
   <component name="FrameworkDetectionExcludesConfiguration">
     <file url="file://$PROJECT_DIR$/cas-overlay-management-updis/overlays" />
+    <file url="file://$PROJECT_DIR$/cas-overlay-management-updis/overlays" />
+    <file url="file://$PROJECT_DIR$/cas-overlay-server-webapp-updis/overlays" />
     <file url="file://$PROJECT_DIR$/cas-overlay-server-webapp-updis/overlays" />
     <file type="web" url="file://$PROJECT_DIR$/cas-overlay-management-updis" />
     <file type="web" url="file://$PROJECT_DIR$/cas-overlay-server-webapp-updis" />

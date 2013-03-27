@@ -26,6 +26,7 @@
         <module name="cas-overlay-server-webapp-updis" />
         <module name="erpclient" />
         <module name="web" />
+        <module name="webservice" />
       </profile>
     </annotationProcessing>
   </component>

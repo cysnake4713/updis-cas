@@ -5,14 +5,12 @@
   </component>
   <component name="FrameworkDetectionExcludesConfiguration">
     <file url="file://$PROJECT_DIR$/cas-overlay-management-updis/overlays" />
-    <file url="file://$PROJECT_DIR$/cas-overlay-management-updis/overlays" />
-    <file url="file://$PROJECT_DIR$/cas-overlay-server-webapp-updis/overlays" />
     <file url="file://$PROJECT_DIR$/cas-overlay-server-webapp-updis/overlays" />
     <file type="web" url="file://$PROJECT_DIR$/cas-overlay-management-updis" />
     <file type="web" url="file://$PROJECT_DIR$/cas-overlay-server-webapp-updis" />
     <file type="web" url="file://$PROJECT_DIR$/web" />
   </component>
-  <component name="IdProvider" IDEtalkID="628970B975214D9BCC11A5AC18E0D5D4" />
+  <component name="IdProvider" IDEtalkID="E7F25E2F56717F85B5618BD146D92B4B" />
   <component name="MavenProjectsManager">
     <option name="originalFiles">
       <list>
@@ -20,6 +18,8 @@
       </list>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_6" assert-keyword="true" jdk-15="true" project-jdk-name="1.7" project-jdk-type="JavaSDK" />
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_6" assert-keyword="true" jdk-15="true" project-jdk-name="1.7" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/classes" />
+  </component>
 </project>
 

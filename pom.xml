@@ -24,6 +24,7 @@
         <module>web</module>
         <module>cas-overlay-server-webapp-updis</module>
         <module>cas-overlay-management-updis</module>
+        <module>webservice</module>
     </modules>
 
     <properties>

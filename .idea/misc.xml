@@ -9,6 +9,7 @@
     <file type="web" url="file://$PROJECT_DIR$/cas-overlay-management-updis" />
     <file type="web" url="file://$PROJECT_DIR$/cas-overlay-server-webapp-updis" />
     <file type="web" url="file://$PROJECT_DIR$/web" />
+    <file type="web" url="file://$PROJECT_DIR$/webservice" />
   </component>
   <component name="IdProvider" IDEtalkID="E7F25E2F56717F85B5618BD146D92B4B" />
   <component name="MavenProjectsManager">

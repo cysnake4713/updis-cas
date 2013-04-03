@@ -34,7 +34,7 @@ public class ObjectServiceImpl extends ServiceBase implements ObjectService {
     }
 
     @Override
-    public List<Map<String, Object>> searchRead(ERPConfig config, List<Criteria> domain, List<String> fields) throws Exception {
+    public List<Map<String, Object>> searchRead(ERPConfig config, List<Criteria> domain, String... fields) throws Exception {
         return this.read(config, this.search(config, domain), fields);
     }
 
@@ -44,7 +44,7 @@ public class ObjectServiceImpl extends ServiceBase implements ObjectService {
     }
 
     @Override
-    public List<Integer> search(ERPConfig config, List<Criteria> domain) throws Exception {
+    public List<Integer> search(ERPConfig config, List<Criteria> domain, Integer offset, Integer limit, String order, Map context,boolean count) throws Exception {
         Object[] ids = (Object[]) this.execute(config, "search", criteriaService.toDomains(domain));
         List<Integer> ret = new ArrayList<Integer>(ids.length);
         for (Object id : ids) {
@@ -53,13 +53,17 @@ public class ObjectServiceImpl extends ServiceBase implements ObjectService {
         return ret;
     }
 
+    public List<Integer> search(ERPConfig config, List<Criteria> domain) throws Exception {
+        return this.search(config, domain,0,20,null,null,false);
+    }
+
     @Override
     public Integer create(ERPConfig config, Map<String, Object> vals) throws Exception {
         return (Integer) this.getConnector().send("execute", config.getDb(), config.getUid(), config.getPassword(), config.getModelName(), "create", vals);
     }
 
     @Override
-    public List<Map<String, Object>> read(ERPConfig config, List<Integer> ids, List<String> fields) throws Exception {
+    public List<Map<String, Object>> read(ERPConfig config, List<Integer> ids, String... fields) throws Exception {
         Object[] results = (Object[]) this.getConnector().send("execute", config.getDb(), config.getUid(), config.getPassword(), config.getModelName(), "read", ids, fields);
         List<Map<String, Object>> ret = new ArrayList<Map<String, Object>>(results.length);
         for (Object obj : results) {

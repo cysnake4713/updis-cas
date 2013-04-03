@@ -12,7 +12,6 @@ import org.springframework.stereotype.Component;
  * To change this template use File | Settings | File Templates.
  */
 public class ERPConfig {
-    @Value("${updis.erp.db}")
     private String db;
     private Integer uid;
     private String password;
@@ -34,6 +33,10 @@ public class ERPConfig {
         this.modelName = model;
     }
 
+    public ERPConfig(ERPConfig config) {
+        this.db = config.getDb();
+        this.modelName = config.getModelName();
+    }
     public String getDb() {
         return db;
     }
@@ -64,5 +67,12 @@ public class ERPConfig {
 
     public void setModelName(String modelName) {
         this.modelName = modelName;
+    }
+    public static ERPConfig cloneERPConfig(ERPConfig erpConfig, String modelName){
+        ERPConfig config = new ERPConfig(erpConfig);
+        config.setUid(1);
+        config.setPassword("Freeborders#1");
+        config.setModelName(modelName);
+        return config;
     }
 }

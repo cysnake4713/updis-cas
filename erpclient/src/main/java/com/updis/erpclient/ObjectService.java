@@ -16,12 +16,12 @@ import java.util.Map;
 public interface ObjectService extends Service {
     /**
      * Search objects according to given domain.
-     *
+     *  def search(self, cr, user, args, offset=0, limit=None, order=None, context=None, count=False):
      * @param domain
      * @return
      * @throws Exception
      */
-    List<Integer> search(ERPConfig config, List<Criteria> domain) throws Exception;
+    List<Integer> search(ERPConfig config, List<Criteria> domain, Integer offset, Integer limit, String order, Map context, boolean count) throws Exception;
 
     /**
      * Read specified fields for given resources.
@@ -31,7 +31,7 @@ public interface ObjectService extends Service {
      * @return
      * @throws Exception
      */
-    List<Map<String, Object>> read(ERPConfig config, List<Integer> ids, List<String> fields) throws Exception;
+    List<Map<String, Object>> read(ERPConfig config, List<Integer> ids, String... fields) throws Exception;
 
     /**
      * Read all fields for given resources.
@@ -50,7 +50,7 @@ public interface ObjectService extends Service {
      * @return
      * @throws Exception
      */
-    List<Map<String, Object>> searchRead(ERPConfig config, List<Criteria> domain, List<String> fields) throws Exception;
+    List<Map<String, Object>> searchRead(ERPConfig config, List<Criteria> domain, String... fields) throws Exception;
 
     /**
      * Search and read all fields from objects.

@@ -35,7 +35,7 @@ public class ERPPersonAttribute extends BasePersonAttributeDao {
         List<Criteria> criterias = new ArrayList<Criteria>();
         criterias.add(new Criteria("login", "=", uid));
         try {
-            List<Map<String, Object>> maps = objectService.searchRead(config, criterias, Arrays.asList(new String[]{"login","user_email","lang","employee","password"}));
+            List<Map<String, Object>> maps = objectService.searchRead(config, criterias, "login","user_email","lang","employee","password");
             Set<Map.Entry<String, Object>> entries = maps.get(0).entrySet();
             for (Map.Entry<String, Object> entry : entries) {
                 List<Object> value = new ArrayList<Object>();

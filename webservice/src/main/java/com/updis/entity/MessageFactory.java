@@ -1,9 +1,12 @@
 package com.updis.entity;
 
+import org.apache.commons.codec.binary.Base64;
+import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.ReflectionUtils;
 
+import java.io.*;
 import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 import java.util.*;
@@ -24,20 +27,39 @@ public class MessageFactory {
         paramMap.put("id", "contentId");
         paramMap.put("create_uid", "author");
         paramMap.put("write_date", "datetime");
-        paramMap.put("image_small","iconUrl");
+        paramMap.put("image_small", "iconUrl");
+        paramMap.put("image", "iconUrl");
     }
 
-    public static Message createMessage(Map<String, Object> params) {
+    public static Message createMessage(Map<String, Object> params, String serverPath, String contextPath) {
         Message message = new Message();
         for (Map.Entry<String, Object> entry : params.entrySet()) {
-            setAttribute(message, paramMap.get(entry.getKey()), entry.getValue());
+            Object value = entry.getValue();
+            String attr = paramMap.get(entry.getKey());
+            if (entry.getKey().startsWith("image") && !(value instanceof Boolean)) {
+                try {
+                    byte[] img = Base64.decodeBase64((String) value);
+                    StringBuffer filePath = new StringBuffer();
+                    filePath.append(serverPath);
+                    filePath.append(File.separator);
+                    String filename = params.get("id").toString()+".png";
+                    filePath.append(filename);
+                    File file = new File(filePath.toString());
+                    FileUtils.writeByteArrayToFile(file, img);
+                    value = contextPath  + filename;
+                } catch (IOException e) {
+                    logger.error(e.getMessage());
+                }
+            }
+            setAttribute(message, attr, value);
         }
         return message;
     }
-    public static List<Message> createMessages(List<Map<String, Object>> params) {
+
+    public static List<Message> createMessages(List<Map<String, Object>> params, String serverPath, String contextPath) {
         List<Message> messages = new ArrayList<Message>();
-        for(Map<String,Object> param :params){
-            messages.add(createMessage(param));
+        for (Map<String, Object> param : params) {
+            messages.add(createMessage(param, serverPath, contextPath));
         }
         return messages;
     }
@@ -55,20 +77,30 @@ public class MessageFactory {
             ReflectionUtils.makeAccessible(field);
             field.set(message, value);
         } catch (NoSuchFieldException e) {
-            logger.error(e.getMessage(), e);
+            logger.warn(e.getMessage(), e);
         } catch (IllegalAccessException e) {
-            logger.error(e.getMessage(), e);
+            logger.warn(e.getMessage(), e);
         } catch (IllegalArgumentException e) {
-            logger.error(e.getMessage(), e);
+            logger.warn(e.getMessage(), e);
         }
     }
 
     public static void main(String[] args) {
         Map<String, Object> stringObjectMap = new HashMap<String, Object>();
+        stringObjectMap.put("id", 4321);
         stringObjectMap.put("name", "SHREK");
-        stringObjectMap.put("write_date", new Date());
+        stringObjectMap.put("write_date", "2013-03-13");
         stringObjectMap.put("create_uid", new Object[]{1, "SHREK"});
-        Message message = createMessage(stringObjectMap);
+        try {
+            String file = FileUtils.readFileToString(new File("C:/users/Zhou Guangwen/97942.txt"));
+            ;
+            stringObjectMap.put("image", file);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        } catch (IOException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
+        Message message = createMessage(stringObjectMap, "c:/users/Zhou guangwen/","http://fdsa.com/fdsa");
         System.out.println(message);
     }
 }

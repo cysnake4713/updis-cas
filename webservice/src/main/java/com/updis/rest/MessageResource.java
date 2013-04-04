@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 
 
@@ -33,6 +35,10 @@ public class MessageResource {
     private ERPConfig erpConfig;
     @Autowired
     private ObjectService objectService;
+    @Autowired
+    private ServletContext servletContext;
+    @Autowired
+    private HttpServletRequest httpServletRequest;
 
     @RequestMapping("/fetchListData")
     @ResponseBody
@@ -42,12 +48,11 @@ public class MessageResource {
         try {
             Integer categoryId = this.getCategoryId(categoryType);
             ERPConfig config = ERPConfig.cloneERPConfig(erpConfig, "message.message");
+            String contextPath = httpServletRequest.getScheme() + "://" + httpServletRequest.getServerName() + ":" + httpServletRequest.getServerPort() + "/resources/images/messages/";
             List<Message> messages1 = MessageFactory.createMessages(objectService.searchRead(
                     config,
                     Arrays.asList(new Criteria[]{new Criteria("category_id", "=", categoryId)}),
-//                    new ArrayList<Criteria>(),
-                    "name","create_uid","write_date","image_small"));
-
+                    "name", "create_uid", "write_date", "image"), servletContext.getRealPath("/resources/images/messages/"), contextPath);
             messages.addAll(messages1);
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
@@ -58,7 +63,7 @@ public class MessageResource {
 
     private Integer getCategoryId(Integer categoryTypeId) throws Exception {
         CategoryTypeEnum categoryTypeEnum = CategoryTypeEnum.getByCategoryTypeId(categoryTypeId);
-        ERPConfig config = ERPConfig.cloneERPConfig(erpConfig,"message.category");
+        ERPConfig config = ERPConfig.cloneERPConfig(erpConfig, "message.category");
 
         List<Integer> ids = objectService.search(config, Arrays.asList(new Criteria[]{new Criteria("name", "=", categoryTypeEnum.getName())}));
         return ids.get(0);

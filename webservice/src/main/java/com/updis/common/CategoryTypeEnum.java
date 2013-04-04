@@ -9,7 +9,7 @@ package com.updis.common;
  */
 public enum CategoryTypeEnum {
     NOTICE("通知", 1),
-    BID("招投标", 2),
+    BID("招投标信息", 2),
     SPARE_TIME_LIFE("业余生活", 3);
     private String name;
     private Integer categoryTypeId;

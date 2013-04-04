@@ -21,7 +21,6 @@
           <element id="library" level="project" name="Maven: commons-lang:commons-lang:2.5" />
           <element id="library" level="project" name="Maven: org.codehaus.jackson:jackson-mapper-asl:1.9.9" />
           <element id="library" level="project" name="Maven: org.codehaus.jackson:jackson-core-asl:1.9.9" />
-          <element id="library" level="project" name="Maven: org.slf4j:slf4j-api:1.7.4" />
           <element id="archive" name="erpclient-1.0-SNAPSHOT.jar">
             <element id="module-output" name="erpclient" />
           </element>
@@ -30,6 +29,8 @@
           <element id="library" level="project" name="Maven: org.apache:ws-commons-util:1.0.2" />
           <element id="library" level="project" name="Maven: cglib:cglib:2.2.2" />
           <element id="library" level="project" name="Maven: asm:asm:3.3.1" />
+          <element id="library" level="project" name="Maven: org.slf4j:slf4j-api:1.7.4" />
+          <element id="library" level="project" name="Maven: org.slf4j:slf4j-jdk14:1.7.2" />
         </element>
       </element>
     </root>

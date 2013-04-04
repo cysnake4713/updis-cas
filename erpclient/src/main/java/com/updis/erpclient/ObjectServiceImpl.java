@@ -45,6 +45,11 @@ public class ObjectServiceImpl extends ServiceBase implements ObjectService {
     }
 
     @Override
+    public List<Map<String, Object>> searchRead(ERPConfig config, List<Criteria> domain, Integer offset, Integer limit, String order, Map context, boolean count, String... fields) throws Exception {
+        return this.read(config, this.search(config, domain, offset, limit, order, context, count));
+    }
+
+    @Override
     public List<Integer> search(ERPConfig config, List<Criteria> domain, Integer offset, Integer limit, String order, Map context, boolean count) throws Exception {
         Object[] ids = (Object[]) this.execute(config, "search", new Object[]{criteriaService.toDomains(domain), offset, limit, order, context, count});
         List<Integer> ret = new ArrayList<Integer>(ids.length);

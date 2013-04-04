@@ -2,6 +2,7 @@ package com.updis.rest;
 
 import com.updis.common.CategoryTypeEnum;
 import com.updis.entity.Message;
+import com.updis.entity.MessageFactory;
 import com.updis.erpclient.ObjectService;
 import com.updis.erpclient.config.ERPConfig;
 import com.updis.erpclient.criteria.Criteria;
@@ -41,13 +42,13 @@ public class MessageResource {
         try {
             Integer categoryId = this.getCategoryId(categoryType);
             ERPConfig config = ERPConfig.cloneERPConfig(erpConfig, "message.message");
-            List<Map<String,Object>> list = objectService.searchRead(
+            List<Message> messages1 = MessageFactory.createMessages(objectService.searchRead(
                     config,
-//                    Arrays.asList(new Criteria[]{new Criteria("category_id", "=", categoryId)}),
-                    new ArrayList<Criteria>(),
-                    "name","create_uid","write_date","image_small");
+                    Arrays.asList(new Criteria[]{new Criteria("category_id", "=", categoryId)}),
+//                    new ArrayList<Criteria>(),
+                    "name","create_uid","write_date","image_small"));
 
-            messages.add(new Message());
+            messages.addAll(messages1);
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
         }

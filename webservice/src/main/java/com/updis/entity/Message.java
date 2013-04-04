@@ -19,12 +19,12 @@ public class Message {
     private String title;
     private String content;
     private String iconUrl;
-    private Date datetime;
+    private String datetime;
 
     public Message() {
     }
 
-    public Message(Integer contentId, String subtitle, String author, String title, String content, String iconUrl, Date datetime) {
+    public Message(Integer contentId, String subtitle, String author, String title, String content, String iconUrl, String datetime) {
         this.contentId = contentId;
         this.subtitle = subtitle;
         this.author = author;
@@ -82,11 +82,20 @@ public class Message {
         this.iconUrl = iconUrl;
     }
 
-    public Date getDatetime() {
+    public String getDatetime() {
         return datetime;
     }
 
-    public void setDatetime(Date datetime) {
+    public void setDatetime(String datetime) {
         this.datetime = datetime;
+    }
+
+    @Override
+    public String toString() {
+        StringBuffer stringBuffer = new StringBuffer();
+        stringBuffer.append(this.getTitle());
+        stringBuffer.append(" Published on: ");
+        stringBuffer.append(this.getDatetime());
+        return stringBuffer.toString();
     }
 }

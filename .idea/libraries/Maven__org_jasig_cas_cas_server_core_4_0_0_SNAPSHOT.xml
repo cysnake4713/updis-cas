@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: org.jasig.cas:cas-server-core:4.0.0-SNAPSHOT">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/jasig/cas/cas-server-core/4.0.0-SNAPSHOT/cas-server-core-4.0.0-20130319.102928-56.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/org/jasig/cas/cas-server-core/4.0.0-SNAPSHOT/cas-server-core-4.0.0-20130319.102928-56-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/jasig/cas/cas-server-core/4.0.0-SNAPSHOT/cas-server-core-4.0.0-20130319.102928-56-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

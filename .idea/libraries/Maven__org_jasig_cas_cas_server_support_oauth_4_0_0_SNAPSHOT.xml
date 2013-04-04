@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: org.jasig.cas:cas-server-support-oauth:4.0.0-SNAPSHOT">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/jasig/cas/cas-server-support-oauth/4.0.0-SNAPSHOT/cas-server-support-oauth-4.0.0-20130319.103236-55.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/org/jasig/cas/cas-server-support-oauth/4.0.0-SNAPSHOT/cas-server-support-oauth-4.0.0-20130319.103236-55-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/jasig/cas/cas-server-support-oauth/4.0.0-SNAPSHOT/cas-server-support-oauth-4.0.0-20130319.103236-55-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

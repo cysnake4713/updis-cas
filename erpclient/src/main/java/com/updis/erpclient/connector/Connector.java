@@ -1,5 +1,7 @@
 package com.updis.erpclient.connector;
 
+import java.util.List;
+
 /**
  * Created with IntelliJ IDEA.
  * Date: 3/12/13
@@ -9,4 +11,5 @@ package com.updis.erpclient.connector;
  */
 public interface Connector {
     Object send(String serviceName, Object... params) throws Exception;
+    Object send(String serviceName, List params) throws Exception;
 }

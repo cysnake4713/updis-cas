@@ -6,6 +6,7 @@ import org.apache.xmlrpc.client.XmlRpcClientConfigImpl;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -36,4 +37,10 @@ public class XMLRPCConnector implements Connector {
     public Object send(String serviceName, Object[] params) throws XmlRpcException {
         return client.execute(serviceName, params);
     }
+
+    @Override
+    public Object send(String serviceName, List params) throws Exception {
+        return client.execute(serviceName, params);
+    }
 }
+

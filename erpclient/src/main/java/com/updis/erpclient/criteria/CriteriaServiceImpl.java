@@ -16,8 +16,8 @@ public class CriteriaServiceImpl implements CriteriaService {
 
     @Override
     public Object[] toDomains(List<Criteria> criteriaList) {
-        Object[] ret = new Object[criteriaList.size()];
         int index = 0;
+        Object[] ret = new Object[criteriaList.size()];
         for (Criteria criteria : criteriaList) {
             ret[index++] = new Object[]{criteria.getField(), criteria.getOperator(), criteria.getValue()};
         }

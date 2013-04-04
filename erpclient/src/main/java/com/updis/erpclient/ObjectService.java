@@ -22,6 +22,7 @@ public interface ObjectService extends Service {
      * @throws Exception
      */
     List<Integer> search(ERPConfig config, List<Criteria> domain, Integer offset, Integer limit, String order, Map context, boolean count) throws Exception;
+    List<Integer> search(ERPConfig config, List<Criteria> domain) throws Exception;
 
     /**
      * Read specified fields for given resources.

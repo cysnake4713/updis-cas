@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -44,8 +45,8 @@ public class ObjectServiceImpl extends ServiceBase implements ObjectService {
     }
 
     @Override
-    public List<Integer> search(ERPConfig config, List<Criteria> domain, Integer offset, Integer limit, String order, Map context,boolean count) throws Exception {
-        Object[] ids = (Object[]) this.execute(config, "search", criteriaService.toDomains(domain));
+    public List<Integer> search(ERPConfig config, List<Criteria> domain, Integer offset, Integer limit, String order, Map context, boolean count) throws Exception {
+        Object[] ids = (Object[]) this.execute(config, "search", new Object[]{criteriaService.toDomains(domain), offset, limit, order, context, count});
         List<Integer> ret = new ArrayList<Integer>(ids.length);
         for (Object id : ids) {
             ret.add((Integer) id);
@@ -53,8 +54,9 @@ public class ObjectServiceImpl extends ServiceBase implements ObjectService {
         return ret;
     }
 
+    @Override
     public List<Integer> search(ERPConfig config, List<Criteria> domain) throws Exception {
-        return this.search(config, domain,0,20,null,null,false);
+        return this.search(config, domain, 0, 20, null, null, false);
     }
 
     @Override
@@ -74,7 +76,14 @@ public class ObjectServiceImpl extends ServiceBase implements ObjectService {
 
 
     private Object execute(ERPConfig config, String method, Object[] params) throws Exception {
-        return this.getConnector().send("execute", config.getDb(), config.getUid(), config.getPassword(), config.getModelName(), method, params);
+        List<Object> p = new ArrayList<Object>();
+        p.add(config.getDb());
+        p.add(config.getUid());
+        p.add(config.getPassword());
+        p.add(config.getModelName());
+        p.add(method);
+        p.addAll(Arrays.asList(params));
+        return this.getConnector().send("execute", p);
     }
 
     private Object exec_workflow(String signal, Object[] params) throws Exception {

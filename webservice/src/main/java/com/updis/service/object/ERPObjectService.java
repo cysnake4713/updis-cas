@@ -14,11 +14,11 @@ import java.util.Map;
  * To change this template use File | Settings | File Templates.
  */
 public interface ERPObjectService<T extends ConvertibleERPObject> {
-    T getById(Integer id, String... fields);
+    T getById(Integer id, String serverPath, String contextPath, String... fields);
 
-    List<T> find(List<Criteria> criterias, String... fields);
+    List<T> find(List<Criteria> criterias, String serverPath, String contextPath, String... fields);
 
-    List<T> find(List<Criteria> criterias, String order, Integer offset, Integer limit, Map context, boolean count, String... fields);
+    List<T> find(List<Criteria> criterias, String order, Integer offset, Integer limit, Map context, boolean count, String serverPath, String contextPath, String... fields);
 
 }
 

@@ -31,19 +31,19 @@ public interface ERPObjectConvertService<T extends ConvertibleERPObject> {
      */
     List<T> convertList(List<Map<String, Object>> params, String serverPath, String contextPath);
 
-    /**
-     * Convert ERP business object to domain object , without image convert and save support.
-     *
-     * @param params
-     * @return
-     */
-    T convert(Map<String, Object> params);
-
-    /**
-     * Convert list of ERP business object to domain object, without image convert and save support.
-     *
-     * @param params
-     * @return
-     */
-    List<T> convertList(List<Map<String, Object>> params);
+//    /**
+//     * Convert ERP business object to domain object , without image convert and save support.
+//     *
+//     * @param params
+//     * @return
+//     */
+//    T convert(Map<String, Object> params);
+//
+//    /**
+//     * Convert list of ERP business object to domain object, without image convert and save support.
+//     *
+//     * @param params
+//     * @return
+//     */
+//    List<T> convertList(List<Map<String, Object>> params);
 }

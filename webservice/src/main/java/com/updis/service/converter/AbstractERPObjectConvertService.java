@@ -42,15 +42,15 @@ public abstract class AbstractERPObjectConvertService<T extends ConvertibleERPOb
         return list;
     }
 
-    @Override
-    public T convert(Map<String, Object> params) {
-        return convert(params, null, null);
-    }
-
-    @Override
-    public List<T> convertList(List<Map<String, Object>> params) {
-        return convertList(params,null,null);
-    }
+//    @Override
+//    public T convert(Map<String, Object> params) {
+//        return convert(params, null, null);
+//    }
+//
+//    @Override
+//    public List<T> convertList(List<Map<String, Object>> params) {
+//        return convertList(params,null,null);
+//    }
 
     protected boolean isImageField(String erpFieldName) {
         return erpFieldName.startsWith("image");

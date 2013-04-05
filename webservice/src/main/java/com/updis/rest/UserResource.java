@@ -21,11 +21,12 @@ import java.util.List;
  * To change this template use File | Settings | File Templates.
  */
 @Controller
-@RequestMapping("queryPerson")
-public class UserResource {
+@RequestMapping("/users")
+public class UserResource extends AbstractResource {
     @Autowired
     private ERPObjectService userService;
 
+    @RequestMapping("/queryPerson")
     @ResponseBody
     public List<User> queryUser(@RequestParam("flag") Integer flag, @RequestParam("userid") Integer userId, @RequestParam("deptid") Integer deptId, @RequestParam(value = "specialtyid", required = false) Integer specialtyId) {
         switch (flag) {
@@ -48,7 +49,12 @@ public class UserResource {
     private List<User> findUser(Integer userId) {
         Criteria criteria = new Criteria("id", "=", userId);
         List<Criteria> criterias = Arrays.asList(new Criteria[]{criteria});
-        List<User> users = userService.find(criterias);
+        List<User> users = userService.find(criterias, getResourceDir(), getContextPath());
         return users;
+    }
+
+    @Override
+    protected String getResourceFolderName() {
+        return "user";
     }
 }

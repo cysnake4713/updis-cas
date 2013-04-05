@@ -34,7 +34,7 @@ public abstract class AbstractERPObjectService<T extends ConvertibleERPObject> i
     protected abstract ERPObjectConvertService getObjectConverter();
 
     @Override
-    public T getById(Integer id, String... fields) {
+    public T getById(Integer id, String serverPath, String contextPath, String... fields) {
         List<Map<String, Object>> messages = new ArrayList<Map<String, Object>>();
         Criteria criteria = new Criteria("id", "=", id);
         List<Criteria> criterias = new ArrayList<Criteria>();
@@ -49,7 +49,7 @@ public abstract class AbstractERPObjectService<T extends ConvertibleERPObject> i
                         getERPConfig(),
                         criterias, 0, 1, null, null, false);
             }
-            List<T> list = getObjectConverter().convertList(messages);
+            List<T> list = getObjectConverter().convertList(messages,serverPath, contextPath);
             return list.get(0);
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
@@ -58,10 +58,10 @@ public abstract class AbstractERPObjectService<T extends ConvertibleERPObject> i
     }
 
     @Override
-    public List<T> find(List<Criteria> criterias, String... fields) {
+    public List<T> find(List<Criteria> criterias, String serverPath, String contextPath, String... fields) {
         List<T> list = new ArrayList<T>();
         try {
-            list = getObjectConverter().convertList(objectService.searchRead(getERPConfig(), criterias, fields));
+            list = getObjectConverter().convertList(objectService.searchRead(getERPConfig(), criterias, fields),serverPath, contextPath);
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
         }
@@ -69,10 +69,10 @@ public abstract class AbstractERPObjectService<T extends ConvertibleERPObject> i
     }
 
     @Override
-    public List<T> find(List<Criteria> criterias, String order, Integer offset, Integer limit, Map context, boolean count, String... fields) {
+    public List<T> find(List<Criteria> criterias, String order, Integer offset, Integer limit, Map context, boolean count, String serverPath, String contextPath, String... fields) {
         List<T> list = new ArrayList<T>();
         try {
-            list = getObjectConverter().convertList(objectService.searchRead(getERPConfig(), criterias, offset, limit, order, context, count, fields));
+            list = getObjectConverter().convertList(objectService.searchRead(getERPConfig(), criterias, offset, limit, order, context, count, fields),serverPath, contextPath);
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
         }

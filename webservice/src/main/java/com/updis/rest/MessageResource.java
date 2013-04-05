@@ -52,7 +52,7 @@ public class MessageResource {
         int offset = currentPage * pageSize;
         try {
             Integer categoryId = this.getCategoryId(categoryType);
-            List<Message> messages1 = MessageFactory.createMessages(
+            List<Message> messages1 = MessageFactory.getInstance().createMessages(
                     readMessages(Arrays.asList(new Criteria[]{new Criteria("category_id", "=", categoryId)}), offset, pageSize, "name", "create_uid", "write_date", "image"),
                     getMessageResourceDir(),
                     getContextPath());
@@ -66,12 +66,17 @@ public class MessageResource {
 
     @RequestMapping("/fetchDetail")
     @ResponseBody
-    public MessageDetail fetchDetail(@RequestParam("uuid") String uuid, @RequestParam("contentId") Integer contentId) {
+    public MessageDetail fetchDetail(@RequestParam("uuid") String uuid, @RequestParam("contentId") Integer contentId) throws Exception {
         List<Map<String, Object>> messages = this.readMessages(Arrays.asList(new Criteria[]{new Criteria("id", "=", contentId)}), 0, 1,
-                "name", "create_uid", "fbbm", "write_date", "image", "read_times");
-        List<MessageDetail> messageDetails = MessageFactory.createMessageDetails(messages, getMessageResourceDir(), getContextPath());
+                "name", "create_uid", "fbbm", "write_date", "image", "read_times","message_ids");
+
+        List<MessageDetail> messageDetails = MessageFactory.getInstance().createMessageDetails(messages, getMessageResourceDir(), getContextPath());
         if (messageDetails.size() > 0) {
-            return messageDetails.get(0);
+            MessageDetail messageDetail =  messageDetails.get(0);
+            Integer[] message_ids = (Integer[]) messages.get(0).get("message_ids");
+            ERPConfig commentConfig = ERPConfig.cloneERPConfig(erpConfig, "mail.message");
+            List<Map<String,Object>> comments = objectService.read(commentConfig, Arrays.asList(message_ids),"subject","author_id","type");
+            return messageDetail;
         }
         throw new IllegalArgumentException("Can not find message for id" + contentId);
     }

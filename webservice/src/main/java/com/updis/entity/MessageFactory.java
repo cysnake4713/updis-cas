@@ -19,10 +19,19 @@ import java.util.*;
  * To change this template use File | Settings | File Templates.
  */
 public class MessageFactory {
-    private static Logger logger = LoggerFactory.getLogger(MessageFactory.class);
-    private static Map<String, String> paramMap = new HashMap<String, String>();
+    private Logger logger = LoggerFactory.getLogger(MessageFactory.class);
+    private Map<String, String> paramMap = new HashMap<String, String>();
 
-    static {
+    private static MessageFactory instance;
+
+    public static MessageFactory getInstance() {
+        if (instance == null) {
+            instance = new MessageFactory();
+        }
+        return instance;
+    }
+
+    private MessageFactory() {
         paramMap.put("name", "title");
         paramMap.put("id", "contentId");
         paramMap.put("create_uid", "author");
@@ -33,19 +42,19 @@ public class MessageFactory {
         paramMap.put("read_times", "readCount");
     }
 
-    public static Message createMessage(Map<String, Object> params, String serverPath, String contextPath) {
+    public Message createMessage(Map<String, Object> params, String serverPath, String contextPath) {
         Message message = new Message();
         updateFields(message, params, serverPath, contextPath);
         return message;
     }
 
-    public static MessageDetail createMessageDetail(Map<String, Object> params, String serverPath, String contextPath) {
+    public MessageDetail createMessageDetail(Map<String, Object> params, String serverPath, String contextPath) {
         MessageDetail messageDetail = new MessageDetail();
         updateFields(messageDetail, params, serverPath, contextPath);
         return messageDetail;
     }
 
-    public static List<Message> createMessages(List<Map<String, Object>> params, String serverPath, String contextPath) {
+    public List<Message> createMessages(List<Map<String, Object>> params, String serverPath, String contextPath) {
         List<Message> messages = new ArrayList<Message>();
         for (Map<String, Object> param : params) {
             messages.add(createMessage(param, serverPath, contextPath));
@@ -53,7 +62,7 @@ public class MessageFactory {
         return messages;
     }
 
-    public static List<MessageDetail> createMessageDetails(List<Map<String, Object>> params, String serverPath, String contextPath) {
+    public List<MessageDetail> createMessageDetails(List<Map<String, Object>> params, String serverPath, String contextPath) {
         List<MessageDetail> messageDetails = new ArrayList<MessageDetail>();
         for (Map<String, Object> param : params) {
             messageDetails.add(createMessageDetail(param, serverPath, contextPath));
@@ -61,7 +70,7 @@ public class MessageFactory {
         return messageDetails;
     }
 
-    private static void updateFields(Message message, Map<String, Object> params, String serverPath, String contextPath) {
+    private void updateFields(Message message, Map<String, Object> params, String serverPath, String contextPath) {
         for (Map.Entry<String, Object> entry : params.entrySet()) {
             Object value = entry.getValue();
             String attr = paramMap.get(entry.getKey());
@@ -87,7 +96,7 @@ public class MessageFactory {
         }
     }
 
-    private static void setAttribute(Message message, String attribute, Object value) {
+    private void setAttribute(Message message, String attribute, Object value) {
         Class<?> cls = message.getClass();
         Field field = null;
         if (value instanceof Object[]) {
@@ -122,7 +131,8 @@ public class MessageFactory {
         } catch (IOException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
-        Message message = createMessage(stringObjectMap, "c:/users/Zhou guangwen/", "http://fdsa.com/fdsa");
+
+        Message message = MessageFactory.getInstance().createMessage(stringObjectMap, "c:/users/Zhou guangwen/", "http://fdsa.com/fdsa");
         System.out.println(message);
     }
 }

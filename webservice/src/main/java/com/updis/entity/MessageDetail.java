@@ -12,6 +12,12 @@ import java.util.List;
  */
 @XmlRootElement
 public class MessageDetail extends Message {
+    private Integer contentId;
+    private String subtitle;
+    private String author;
+    private String title;
+    private String iconUrl;
+    private String datetime;
     private String fbbm;
     private Integer readCount;
     private List<Comment> comments;
@@ -38,5 +44,53 @@ public class MessageDetail extends Message {
 
     public void setComments(List<Comment> comments) {
         this.comments = comments;
+    }
+
+    public Integer getContentId() {
+        return contentId;
+    }
+
+    public void setContentId(Integer contentId) {
+        this.contentId = contentId;
+    }
+
+    public String getSubtitle() {
+        return subtitle;
+    }
+
+    public void setSubtitle(String subtitle) {
+        this.subtitle = subtitle;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getIconUrl() {
+        return iconUrl;
+    }
+
+    public void setIconUrl(String iconUrl) {
+        this.iconUrl = iconUrl;
+    }
+
+    public String getDatetime() {
+        return datetime;
+    }
+
+    public void setDatetime(String datetime) {
+        this.datetime = datetime;
     }
 }

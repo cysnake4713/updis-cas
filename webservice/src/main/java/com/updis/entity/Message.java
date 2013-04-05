@@ -1,6 +1,6 @@
 package com.updis.entity;
 
-import com.updis.service.ConvertableObject;
+import com.updis.service.converter.ConvertibleERPObject;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -12,7 +12,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * To change this template use File | Settings | File Templates.
  */
 @XmlRootElement
-public class Message implements ConvertableObject {
+public class Message implements ConvertibleERPObject {
     private Integer contentId;
     private String subtitle;
     private String author;

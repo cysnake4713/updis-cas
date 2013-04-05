@@ -1,6 +1,5 @@
-package com.updis.service;
+package com.updis.service.converter;
 
-import com.updis.entity.Message;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
@@ -21,45 +20,59 @@ import java.util.Map;
  * Time: 3:53 PM
  * To change this template use File | Settings | File Templates.
  */
-public abstract class AbstractConverter<T extends ConvertableObject> implements ERPObjectConverter<T> {
-    private Logger logger = LoggerFactory.getLogger(AbstractConverter.class);
+public abstract class AbstractERPObjectConvertService<T extends ConvertibleERPObject> implements ERPObjectConvertService<T> {
+    private Logger logger = LoggerFactory.getLogger(AbstractERPObjectConvertService.class);
 
     public abstract String getAttribute(String erpFieldName);
 
     public abstract T createInstance();
 
-    public T convert(Map<String, Object> params, String serverPath, String contextPath) {
+
+    public T convert(Map<String, Object> params,String imageSavePath, String urlPrefix) {
         T obj = createInstance();
-        updateFields(obj, params, serverPath, contextPath);
+        updateFields(obj, params, imageSavePath, urlPrefix);
         return obj;
     }
 
-    public List<T> convertList(List<Map<String, Object>> params, String serverPath, String contextPath) {
+    public List<T> convertList(List<Map<String, Object>> params, String imageSavePath, String urlPrefix) {
         List<T> list = new ArrayList<T>(params.size());
         for (Map<String, Object> stringObjectMap : params) {
-            list.add(convert(stringObjectMap, serverPath, contextPath));
+            list.add(convert(stringObjectMap, imageSavePath, urlPrefix));
         }
         return list;
     }
 
-    protected void updateFields(T obj, Map<String, Object> params, String serverPath, String contextPath) {
+    @Override
+    public T convert(Map<String, Object> params) {
+        return convert(params, null, null);
+    }
+
+    @Override
+    public List<T> convertList(List<Map<String, Object>> params) {
+        return convertList(params,null,null);
+    }
+
+    protected boolean isImageField(String erpFieldName) {
+        return erpFieldName.startsWith("image");
+    }
+    protected void updateFields(T obj, Map<String, Object> params, String imageSavePath, String urlPrefix) {
         for (Map.Entry<String, Object> entry : params.entrySet()) {
             Object value = entry.getValue();
             String attr = getAttribute(entry.getKey());
             if (attr == null) {
                 continue;
             }
-            if (entry.getKey().startsWith("image") && !(value instanceof Boolean)) {
+            if (isImageField(attr) && !(value instanceof Boolean)) {
                 try {
                     byte[] img = Base64.decodeBase64((String) value);
                     StringBuffer filePath = new StringBuffer();
-                    filePath.append(serverPath);
+                    filePath.append(imageSavePath);
                     filePath.append(File.separator);
                     String filename = params.get("id").toString() + ".png";
                     filePath.append(filename);
                     File file = new File(filePath.toString());
                     FileUtils.writeByteArrayToFile(file, img);
-                    value = contextPath + filename;
+                    value = urlPrefix + filename;
                 } catch (IOException e) {
                     logger.error(e.getMessage());
                 }

@@ -1,7 +1,7 @@
-package com.updis.service;
+package com.updis.service.converter;
 
 import com.updis.entity.MessageDetail;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 /**
  * Created with IntelliJ IDEA.
@@ -10,8 +10,8 @@ import org.springframework.stereotype.Component;
  * Time: 4:35 PM
  * To change this template use File | Settings | File Templates.
  */
-@Component("messageDetailConverter")
-public class MessageDetailConverter extends MessageConverter {
+@Service("messageDetailConverter")
+public class MessageDetailERPObjectConvertService extends MessageERPObjectConvertService {
     @Override
     public MessageDetail createInstance() {
         return new MessageDetail();

@@ -1,10 +1,9 @@
-package com.updis.service;
+package com.updis.service.converter;
 
 import com.updis.entity.Message;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -14,8 +13,8 @@ import java.util.Map;
  * Time: 4:05 PM
  * To change this template use File | Settings | File Templates.
  */
-@Component("messageConverter")
-public class MessageConverter extends AbstractConverter<Message>  {
+@Service("messageConverter")
+public class MessageERPObjectConvertService extends AbstractERPObjectConvertService<Message> {
     protected Map<String, String> paramMap = new HashMap<String, String>();
 
     {

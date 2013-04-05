@@ -1,16 +1,16 @@
 package com.updis.rest;
 
 import com.updis.common.CategoryTypeEnum;
+import com.updis.entity.Comment;
 import com.updis.entity.Message;
 import com.updis.entity.MessageDetail;
 import com.updis.erpclient.ObjectService;
 import com.updis.erpclient.config.ERPConfig;
 import com.updis.erpclient.criteria.Criteria;
-import com.updis.service.ERPObjectConverter;
+import com.updis.service.converter.ERPObjectConvertService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -41,10 +41,11 @@ public class MessageResource {
     @Autowired
     private HttpServletRequest httpServletRequest;
     @Autowired
-//    @Qualifier("messageConverter")
-    private ERPObjectConverter messageConverter;
+    private ERPObjectConvertService messageConverter;
     @Autowired
-    private ERPObjectConverter messageDetailConverter;
+    private ERPObjectConvertService messageDetailConverter;
+    @Autowired
+    private ERPObjectConvertService commentConverter;
 
     @RequestMapping("/fetchListData")
     @ResponseBody
@@ -83,7 +84,9 @@ public class MessageResource {
                 messageIds.add((Integer) o);
             }
             ERPConfig commentConfig = ERPConfig.cloneERPConfig(erpConfig, "mail.message");
-            List<Map<String, Object>> comments = objectService.read(commentConfig, messageIds, "subject", "author_id", "type", "body");
+            List<Map<String, Object>> comments = objectService.read(commentConfig, messageIds, "subject", "author_id", "type", "body","date");
+            List<Comment> commentList = commentConverter.convertList(comments, getMessageResourceDir(), getContextPath());
+            messageDetail.setComments(commentList);
             return messageDetail;
         }
         throw new IllegalArgumentException("Can not find message for id" + contentId);

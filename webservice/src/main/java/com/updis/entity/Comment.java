@@ -1,5 +1,7 @@
 package com.updis.entity;
 
+import com.updis.service.converter.ConvertibleERPObject;
+
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -10,11 +12,21 @@ import javax.xml.bind.annotation.XmlRootElement;
  * To change this template use File | Settings | File Templates.
  */
 @XmlRootElement
-public class Comment {
+public class Comment implements ConvertibleERPObject {
     private Integer contentId;
     private String title;
     private String author;
     private String datetime;
+    private String type;
+    private String content;
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
 
     public Integer getContentId() {
         return contentId;
@@ -46,5 +58,13 @@ public class Comment {
 
     public void setDatetime(String datetime) {
         this.datetime = datetime;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 }

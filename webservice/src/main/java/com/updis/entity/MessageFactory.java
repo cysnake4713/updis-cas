@@ -29,31 +29,20 @@ public class MessageFactory {
         paramMap.put("write_date", "datetime");
         paramMap.put("image_small", "iconUrl");
         paramMap.put("image", "iconUrl");
+        paramMap.put("fbbm", "fbbm");
+        paramMap.put("read_times", "readCount");
     }
 
     public static Message createMessage(Map<String, Object> params, String serverPath, String contextPath) {
         Message message = new Message();
-        for (Map.Entry<String, Object> entry : params.entrySet()) {
-            Object value = entry.getValue();
-            String attr = paramMap.get(entry.getKey());
-            if (entry.getKey().startsWith("image") && !(value instanceof Boolean)) {
-                try {
-                    byte[] img = Base64.decodeBase64((String) value);
-                    StringBuffer filePath = new StringBuffer();
-                    filePath.append(serverPath);
-                    filePath.append(File.separator);
-                    String filename = params.get("id").toString()+".png";
-                    filePath.append(filename);
-                    File file = new File(filePath.toString());
-                    FileUtils.writeByteArrayToFile(file, img);
-                    value = contextPath  + filename;
-                } catch (IOException e) {
-                    logger.error(e.getMessage());
-                }
-            }
-            setAttribute(message, attr, value);
-        }
+        updateFields(message, params, serverPath, contextPath);
         return message;
+    }
+
+    public static MessageDetail createMessageDetail(Map<String, Object> params, String serverPath, String contextPath) {
+        MessageDetail messageDetail = new MessageDetail();
+        updateFields(messageDetail, params, serverPath, contextPath);
+        return messageDetail;
     }
 
     public static List<Message> createMessages(List<Map<String, Object>> params, String serverPath, String contextPath) {
@@ -64,6 +53,39 @@ public class MessageFactory {
         return messages;
     }
 
+    public static List<MessageDetail> createMessageDetails(List<Map<String, Object>> params, String serverPath, String contextPath) {
+        List<MessageDetail> messageDetails = new ArrayList<MessageDetail>();
+        for (Map<String, Object> param : params) {
+            messageDetails.add(createMessageDetail(param, serverPath, contextPath));
+        }
+        return messageDetails;
+    }
+
+    private static void updateFields(Message message, Map<String, Object> params, String serverPath, String contextPath) {
+        for (Map.Entry<String, Object> entry : params.entrySet()) {
+            Object value = entry.getValue();
+            String attr = paramMap.get(entry.getKey());
+            if (attr == null) {
+                continue;
+            }
+            if (entry.getKey().startsWith("image") && !(value instanceof Boolean)) {
+                try {
+                    byte[] img = Base64.decodeBase64((String) value);
+                    StringBuffer filePath = new StringBuffer();
+                    filePath.append(serverPath);
+                    filePath.append(File.separator);
+                    String filename = params.get("id").toString() + ".png";
+                    filePath.append(filename);
+                    File file = new File(filePath.toString());
+                    FileUtils.writeByteArrayToFile(file, img);
+                    value = contextPath + filename;
+                } catch (IOException e) {
+                    logger.error(e.getMessage());
+                }
+            }
+            setAttribute(message, attr, value);
+        }
+    }
 
     private static void setAttribute(Message message, String attribute, Object value) {
         Class<?> cls = message.getClass();
@@ -100,7 +122,7 @@ public class MessageFactory {
         } catch (IOException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
-        Message message = createMessage(stringObjectMap, "c:/users/Zhou guangwen/","http://fdsa.com/fdsa");
+        Message message = createMessage(stringObjectMap, "c:/users/Zhou guangwen/", "http://fdsa.com/fdsa");
         System.out.println(message);
     }
 }

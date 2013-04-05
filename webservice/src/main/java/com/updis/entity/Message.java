@@ -17,19 +17,17 @@ public class Message {
     private String subtitle;
     private String author;
     private String title;
-    private String content;
     private String iconUrl;
     private String datetime;
 
     public Message() {
     }
 
-    public Message(Integer contentId, String subtitle, String author, String title, String content, String iconUrl, String datetime) {
+    public Message(Integer contentId, String subtitle, String author, String title, String iconUrl, String datetime) {
         this.contentId = contentId;
         this.subtitle = subtitle;
         this.author = author;
         this.title = title;
-        this.content = content;
         this.iconUrl = iconUrl;
         this.datetime = datetime;
     }
@@ -40,14 +38,6 @@ public class Message {
 
     public void setTitle(String title) {
         this.title = title;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
     }
 
     public Integer getContentId() {

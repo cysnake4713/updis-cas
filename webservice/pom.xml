@@ -13,6 +13,9 @@
         <jersey.version>1.17</jersey.version>
     </properties>
     <artifactId>webservice</artifactId>
+    <build>
+        <finalName>rest</finalName>
+    </build>
     <dependencies>
         <dependency>
             <groupId>org.springframework</groupId>

@@ -1,8 +1,8 @@
 package com.updis.entity;
 
-import javax.print.attribute.standard.DateTimeAtCompleted;
+import com.updis.service.ConvertableObject;
+
 import javax.xml.bind.annotation.XmlRootElement;
-import java.util.Date;
 
 /**
  * Created with IntelliJ IDEA.
@@ -12,7 +12,7 @@ import java.util.Date;
  * To change this template use File | Settings | File Templates.
  */
 @XmlRootElement
-public class Message {
+public class Message implements ConvertableObject {
     private Integer contentId;
     private String subtitle;
     private String author;

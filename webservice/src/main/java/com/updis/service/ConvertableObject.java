@@ -1,11 +1,11 @@
-package com.updis.entity;
+package com.updis.service;
 
 /**
  * Created with IntelliJ IDEA.
  * User: Zhou Guangwen
  * Date: 4/5/13
- * Time: 12:32 PM
+ * Time: 3:54 PM
  * To change this template use File | Settings | File Templates.
  */
-public class BaseFactory {
+public interface ConvertableObject {
 }

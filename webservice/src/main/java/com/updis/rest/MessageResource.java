@@ -8,6 +8,7 @@ import com.updis.erpclient.ObjectService;
 import com.updis.erpclient.config.ERPConfig;
 import com.updis.erpclient.criteria.Criteria;
 import com.updis.service.converter.ERPObjectConvertService;
+import com.updis.service.object.ERPObjectService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,8 +31,11 @@ import java.util.*;
  */
 @Controller
 @RequestMapping("/messages")
-public class MessageResource {
+public class MessageResource extends AbstractResource {
     private Logger logger = LoggerFactory.getLogger(MessageResource.class);
+
+    @Autowired
+    private ERPObjectService messageDetailService;
     @Autowired
     private ERPConfig erpConfig;
     @Autowired
@@ -49,47 +53,26 @@ public class MessageResource {
 
     @RequestMapping("/fetchListData")
     @ResponseBody
-    public Map<String, List<Message>> fetchMessageList(@RequestParam("uuid") String uuid,
-                                                       @RequestParam("categoryType") Integer categoryType,
-                                                       @RequestParam(value = "currentPage", defaultValue = "1") Integer currentPage,
-                                                       @RequestParam(value = "pageSize", defaultValue = "20") Integer pageSize) {
-        Map<String, List<Message>> ret = new HashMap<String, List<Message>>();
-        List<Message> messages = new ArrayList<Message>();
+    public List<MessageDetail> fetchMessageList(@RequestParam("uuid") String uuid,
+                                                @RequestParam("categoryType") Integer categoryType,
+                                                @RequestParam(value = "currentPage", defaultValue = "1") Integer currentPage,
+                                                @RequestParam(value = "pageSize", defaultValue = "20") Integer pageSize) {
+        List<MessageDetail> messageDetails = new ArrayList<MessageDetail>();
         int offset = currentPage * pageSize;
         try {
-            Integer categoryId = this.getCategoryId(categoryType);
-            List<Message> messages1 = messageConverter.convertList(
-                    readMessages(Arrays.asList(new Criteria[]{new Criteria("category_id", "=", categoryId)}), offset, pageSize, "name", "create_uid", "write_date", "image"),
-                    getMessageResourceDir(),
-                    getContextPath());
-            messages.addAll(messages1);
+            List<Criteria> criterias = new ArrayList<Criteria>();
+            criterias.add(new Criteria("category_id", "=", getCategoryId(categoryType)));
+            messageDetails = messageDetailService.find(criterias, "write_date", offset, pageSize, null, false, getResourceDir(), getContextPath(), "name", "create_uid", "write_date", "image");
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
         }
-        ret.put("data", messages);
-        return ret;
+        return messageDetails;
     }
 
     @RequestMapping("/fetchDetail")
     @ResponseBody
     public MessageDetail fetchDetail(@RequestParam("uuid") String uuid, @RequestParam("contentId") Integer contentId) throws Exception {
-        List<Map<String, Object>> messages = this.readMessages(Arrays.asList(new Criteria[]{new Criteria("id", "=", contentId)}), 0, 1,
-                "name", "create_uid", "fbbm", "write_date", "image", "read_times", "message_ids");
-
-        List<MessageDetail> messageDetails = messageDetailConverter.convertList(messages, getMessageResourceDir(), getContextPath());
-        if (messageDetails.size() > 0) {
-            MessageDetail messageDetail = messageDetails.get(0);
-            List<Integer> messageIds = new ArrayList<Integer>();
-            for (Object o : (Object[]) messages.get(0).get("message_ids")) {
-                messageIds.add((Integer) o);
-            }
-            ERPConfig commentConfig = ERPConfig.cloneERPConfig(erpConfig, "mail.message");
-            List<Map<String, Object>> comments = objectService.read(commentConfig, messageIds, "subject", "author_id", "type", "body","date");
-            List<Comment> commentList = commentConverter.convertList(comments, getMessageResourceDir(), getContextPath());
-            messageDetail.setComments(commentList);
-            return messageDetail;
-        }
-        throw new IllegalArgumentException("Can not find message for id" + contentId);
+        return (MessageDetail) messageDetailService.getById(contentId, getResourceDir(), getContextPath(), "name", "create_uid", "fbbm", "write_date", "image", "read_times", "message_ids");
     }
 
     private Integer getCategoryId(Integer categoryTypeId) throws Exception {
@@ -100,26 +83,9 @@ public class MessageResource {
         return ids.get(0);
     }
 
-    private List<Map<String, Object>> readMessages(List<Criteria> criterias, Integer offset, Integer pageSize, String... fields) {
-        ERPConfig config = ERPConfig.cloneERPConfig(erpConfig, "message.message");
 
-        List<Map<String, Object>> messages = new ArrayList<Map<String, Object>>();
-        try {
-            messages = objectService.searchRead(
-                    config,
-                    criterias, offset, pageSize, "write_date desc", null, false,
-                    fields);
-        } catch (Exception e) {
-            logger.error(e.getMessage(), e);
-        }
-        return messages;
-    }
-
-    private String getContextPath() {
-        return httpServletRequest.getScheme() + "://" + httpServletRequest.getServerName() + ":" + httpServletRequest.getServerPort() + "/resources/images/messages/";
-    }
-
-    private String getMessageResourceDir() {
-        return servletContext.getRealPath("/resources/images/messages/");
+    @Override
+    protected String getResourceFolderName() {
+        return "message";
     }
 }

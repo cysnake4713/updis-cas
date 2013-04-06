@@ -62,7 +62,7 @@ public abstract class AbstractERPObjectConvertService<T extends ConvertibleERPOb
             if (attr == null) {
                 continue;
             }
-            if (isImageField(attr) && !(value instanceof Boolean)) {
+            if (isImageField(entry.getKey()) && !(value instanceof Boolean)) {
                 try {
                     byte[] img = Base64.decodeBase64((String) value);
                     StringBuffer filePath = new StringBuffer();

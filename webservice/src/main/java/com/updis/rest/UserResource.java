@@ -28,7 +28,11 @@ public class UserResource extends AbstractResource {
 
     @RequestMapping("/queryPerson")
     @ResponseBody
-    public List<User> queryUser(@RequestParam("flag") Integer flag, @RequestParam("userid") Integer userId, @RequestParam("deptid") Integer deptId, @RequestParam(value = "specialtyid", required = false) Integer specialtyId) {
+    public List<User> queryUser(
+            @RequestParam("flag") Integer flag,
+            @RequestParam(value = "userid", required = false) Integer userId,
+            @RequestParam(value = "deptid", required = false) Integer deptId,
+            @RequestParam(value = "specialtyid", required = false) Integer specialtyId) {
         switch (flag) {
             case 1:
                 return findUsers(deptId);

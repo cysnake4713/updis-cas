@@ -40,16 +40,6 @@ public class MessageResource extends AbstractResource {
     private ERPConfig erpConfig;
     @Autowired
     private ObjectService objectService;
-    @Autowired
-    private ServletContext servletContext;
-    @Autowired
-    private HttpServletRequest httpServletRequest;
-    @Autowired
-    private ERPObjectConvertService messageConverter;
-    @Autowired
-    private ERPObjectConvertService messageDetailConverter;
-    @Autowired
-    private ERPObjectConvertService commentConverter;
 
     @RequestMapping("/fetchListData")
     @ResponseBody

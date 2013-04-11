@@ -20,5 +20,7 @@ public interface ERPObjectService<T extends ConvertibleERPObject> {
 
     List<T> find(List<Criteria> criterias, String order, Integer offset, Integer limit, Map context, boolean count, String serverPath, String contextPath, String... fields);
 
+    int count(List<Criteria> criterias, Map context);
+
 }
 

@@ -49,7 +49,7 @@ public abstract class AbstractERPObjectService<T extends ConvertibleERPObject> i
                         getERPConfig(),
                         criterias, 0, 1, null, null, false);
             }
-            List<T> list = getObjectConverter().convertList(messages,serverPath, contextPath);
+            List<T> list = getObjectConverter().convertList(messages, serverPath, contextPath);
             return list.get(0);
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
@@ -61,7 +61,7 @@ public abstract class AbstractERPObjectService<T extends ConvertibleERPObject> i
     public List<T> find(List<Criteria> criterias, String serverPath, String contextPath, String... fields) {
         List<T> list = new ArrayList<T>();
         try {
-            list = getObjectConverter().convertList(objectService.searchRead(getERPConfig(), criterias, fields),serverPath, contextPath);
+            list = getObjectConverter().convertList(objectService.searchRead(getERPConfig(), criterias, fields), serverPath, contextPath);
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
         }
@@ -72,11 +72,22 @@ public abstract class AbstractERPObjectService<T extends ConvertibleERPObject> i
     public List<T> find(List<Criteria> criterias, String order, Integer offset, Integer limit, Map context, boolean count, String serverPath, String contextPath, String... fields) {
         List<T> list = new ArrayList<T>();
         try {
-            list = getObjectConverter().convertList(objectService.searchRead(getERPConfig(), criterias, offset, limit, order, context, count, fields),serverPath, contextPath);
+            list = getObjectConverter().convertList(objectService.searchRead(getERPConfig(), criterias, offset, limit, order, context, count, fields), serverPath, contextPath);
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
         }
         return list;
+    }
+
+    @Override
+    public int count(List<Criteria> criterias, Map context) {
+        try {
+            List<Integer> integers = objectService.search(getERPConfig(), criterias, 0, null, null, null, true);
+            return integers.get(0);
+        } catch (Exception e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
+        return 0;
     }
 
     private ERPConfig getERPConfig() {

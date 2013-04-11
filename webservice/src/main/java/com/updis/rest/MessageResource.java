@@ -43,26 +43,43 @@ public class MessageResource extends AbstractResource {
 
     @RequestMapping("/fetchListData")
     @ResponseBody
-    public List<MessageDetail> fetchMessageList(@RequestParam("uuid") String uuid,
+    public Map<String, Object> fetchMessageList(@RequestParam("uuid") String uuid,
                                                 @RequestParam("categoryType") Integer categoryType,
                                                 @RequestParam(value = "currentPage", defaultValue = "1") Integer currentPage,
                                                 @RequestParam(value = "pageSize", defaultValue = "20") Integer pageSize) {
+        Map<String, Object> objectMap = new HashMap<String, Object>();
         List<MessageDetail> messageDetails = new ArrayList<MessageDetail>();
         int offset = currentPage * pageSize;
+        int categoryId = 0;
+        List<Criteria> criterias = new ArrayList<Criteria>();
         try {
-            List<Criteria> criterias = new ArrayList<Criteria>();
-            criterias.add(new Criteria("category_id", "=", getCategoryId(categoryType)));
+            categoryId = getCategoryId(categoryType);
+        } catch (Exception e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
+        criterias.add(new Criteria("category_id", "=", categoryId));
+        try {
             messageDetails = messageDetailService.find(criterias, "write_date", offset, pageSize, null, false, getResourceDir(), getContextPath(), "name", "create_uid", "write_date", "image");
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
         }
-        return messageDetails;
+        objectMap.put("data", messageDetails);
+
+        int pageNum = (int) Math.ceil(messageDetailService.count(criterias, null) / Double.valueOf(pageSize));
+        objectMap.put("total_page", pageNum);
+        return objectMap;
     }
 
     @RequestMapping("/fetchDetail")
     @ResponseBody
-    public MessageDetail fetchDetail(@RequestParam("uuid") String uuid, @RequestParam("contentId") Integer contentId) throws Exception {
-        return (MessageDetail) messageDetailService.getById(contentId, getResourceDir(), getContextPath(), "name", "create_uid", "fbbm", "write_date", "image", "read_times", "message_ids");
+    public Map<String, Object> fetchDetail(@RequestParam("uuid") String uuid, @RequestParam("contentId") Integer contentId) throws Exception {
+        Map<String, Object> objectMap = new HashMap<String, Object>();
+        Map<String, Object> data = new HashMap<String, Object>();
+        MessageDetail messageDetail = (MessageDetail) messageDetailService.getById(contentId, getResourceDir(), getContextPath(), "name", "create_uid", "fbbm", "write_date", "image", "read_times", "message_ids");
+        data.put("content", messageDetail);
+        data.put("comment", messageDetail.getComments());
+        objectMap.put("data", data);
+        return objectMap;
     }
 
     private Integer getCategoryId(Integer categoryTypeId) throws Exception {
@@ -77,5 +94,10 @@ public class MessageResource extends AbstractResource {
     @Override
     protected String getResourceFolderName() {
         return "message";
+    }
+
+    public static void main(String[] args) {
+        double pageSize = 2;
+        System.out.println(Math.ceil(5 / pageSize));
     }
 }

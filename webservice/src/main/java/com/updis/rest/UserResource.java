@@ -11,7 +11,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created with IntelliJ IDEA.
@@ -28,19 +30,19 @@ public class UserResource extends AbstractResource {
 
     @RequestMapping("/queryPerson")
     @ResponseBody
-    public List<User> queryUser(
+    public Map<String, Object> queryUser(
             @RequestParam("flag") Integer flag,
             @RequestParam(value = "userid", required = false) Integer userId,
             @RequestParam(value = "deptid", required = false) Integer deptId,
             @RequestParam(value = "specialtyid", required = false) Integer specialtyId) {
+        Map<String,Object> objectMap = new HashMap<String, Object>();
         switch (flag) {
             case 1:
-                return findUsers(deptId);
+                 objectMap.put("data",findUsers(deptId));
             case 2:
-                return findUser(userId);
-            default:
-                throw new IllegalArgumentException("wrong arguments");
+                objectMap.put("data",findUser(userId));
         }
+        return objectMap;
     }
 
     private List<User> findUsers(Integer deptId) {
@@ -50,11 +52,11 @@ public class UserResource extends AbstractResource {
         return users;
     }
 
-    private List<User> findUser(Integer userId) {
+    private User findUser(Integer userId) {
         Criteria criteria = new Criteria("id", "=", userId);
         List<Criteria> criterias = Arrays.asList(new Criteria[]{criteria});
         List<User> users = userService.find(criterias, getResourceDir(), getContextPath());
-        return users;
+        return users.get(0);
     }
 
     @Override

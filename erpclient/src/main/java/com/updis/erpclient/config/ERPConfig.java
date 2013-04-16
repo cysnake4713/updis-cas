@@ -71,7 +71,7 @@ public class ERPConfig {
     public static ERPConfig cloneERPConfig(ERPConfig erpConfig, String modelName){
         ERPConfig config = new ERPConfig(erpConfig);
         config.setUid(1);
-        config.setPassword("Freeborders#1");
+        config.setPassword("admin");
         config.setModelName(modelName);
         return config;
     }

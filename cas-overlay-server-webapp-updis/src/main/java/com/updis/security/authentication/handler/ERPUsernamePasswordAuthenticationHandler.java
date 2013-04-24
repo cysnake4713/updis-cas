@@ -3,6 +3,7 @@ package com.updis.security.authentication.handler;
 import com.updis.erpclient.CommonService;
 import com.updis.erpclient.ObjectService;
 import com.updis.erpclient.config.ERPConfig;
+import com.updis.security.ERPUserContext;
 import org.jasig.cas.authentication.handler.AuthenticationException;
 import org.jasig.cas.authentication.handler.BadCredentialsAuthenticationException;
 import org.jasig.cas.authentication.handler.UnknownUsernameAuthenticationException;
@@ -24,11 +25,16 @@ public class ERPUsernamePasswordAuthenticationHandler extends AbstractUsernamePa
     private String erpdb;
     @Autowired
     private CommonService commonService;
+    @Autowired
+    private ERPUserContext erpUserContext;
+
 
     @Override
     protected boolean authenticateUsernamePasswordInternal(UsernamePasswordCredentials credentials) throws AuthenticationException {
         try {
             Integer uid = commonService.login(erpdb, credentials.getUsername(), credentials.getPassword());
+            erpUserContext.setPassword(credentials.getPassword());
+            erpUserContext.setUsername(credentials.getUsername());
             return true;
         } catch (Exception e) {
             throw new BadCredentialsAuthenticationException();

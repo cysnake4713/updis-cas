@@ -3,12 +3,15 @@ package com.updis.security;
 import com.updis.erpclient.ObjectService;
 import com.updis.erpclient.config.ERPConfig;
 import com.updis.erpclient.criteria.Criteria;
+import org.jasig.cas.authentication.Authentication;
+import org.jasig.cas.validation.Assertion;
 import org.jasig.services.persondir.IPersonAttributes;
 import org.jasig.services.persondir.support.AttributeNamedPersonImpl;
 import org.jasig.services.persondir.support.BasePersonAttributeDao;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.util.*;
 
@@ -26,6 +29,8 @@ public class ERPPersonAttribute extends BasePersonAttributeDao {
     private String db;
     private Integer erpUID;
     private String password;
+    @Autowired
+    private ERPUserContext erpUserContext;
 
     @Override
     public IPersonAttributes getPerson(String uid) {
@@ -43,6 +48,7 @@ public class ERPPersonAttribute extends BasePersonAttributeDao {
                 erpUserMap.put(entry.getKey(), value);
             }
             erpUserMap.put("db", Arrays.asList(new Object[]{db}));
+            erpUserMap.put("password",Arrays.asList(new Object[]{erpUserContext.getPassword()}));
             personAttributes = new AttributeNamedPersonImpl(erpUserMap);
         } catch (Exception e) {
             logger.error("Failed to fetch ERP user info", e);

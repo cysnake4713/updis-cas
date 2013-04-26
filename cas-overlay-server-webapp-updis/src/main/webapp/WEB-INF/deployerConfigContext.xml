@@ -243,6 +243,11 @@
             </list>
         </property>
     </bean>
+
+    <bean id="serviceConfig" class="com.updis.erpclient.config.ServiceConfig">
+        <property name="urlAddress" value="${updis.erp.server.url}"/>
+    </bean>
+
     <context:component-scan base-package="com.updis.erpclient"/>
 
     <bean id="erpUserContext" class="com.updis.security.ERPUserContextImpl" scope="session">

@@ -79,6 +79,11 @@ public class ObjectServiceImpl extends ServiceBase implements ObjectService {
         return ret;
     }
 
+    @Override
+    public Boolean update(ERPConfig config, List<Integer> ids, Map<String, Object> vals) throws Exception {
+        return (Boolean) this.getConnector().send("execute", config.getDb(), config.getUid(), config.getPassword(), config.getModelName(), "write", ids, vals);
+    }
+
 
     private Object execute(ERPConfig config, String method, Object[] params) throws Exception {
         List<Object> p = new ArrayList<Object>();

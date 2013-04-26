@@ -74,4 +74,14 @@ public interface ObjectService extends Service {
      * @throws Exception
      */
     Integer create(ERPConfig config, Map<String, Object> vals) throws Exception;
+
+
+    /**
+     * Update resource for a object.
+     *
+     * @param vals
+     * @return
+     * @throws Exception
+     */
+    Boolean update(ERPConfig config, List<Integer> ids, Map<String, Object> vals) throws Exception;
 }

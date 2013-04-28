@@ -84,12 +84,10 @@ public class MessageResource extends AbstractResource {
 
     private Integer getCategoryId(Integer categoryTypeId) throws Exception {
         CategoryTypeEnum categoryTypeEnum = CategoryTypeEnum.getByCategoryTypeId(categoryTypeId);
-        ERPConfig config = ERPConfig.cloneERPConfig(erpConfig, "message.category");
-
-        List<Integer> ids = objectService.search(config, Arrays.asList(new Criteria[]{new Criteria("name", "=", categoryTypeEnum.getName())}));
+        erpConfig.setModelName("message.category");
+        List<Integer> ids = objectService.search(erpConfig, Arrays.asList(new Criteria[]{new Criteria("name", "=", categoryTypeEnum.getName())}));
         return ids.get(0);
     }
-
 
     @Override
     protected String getResourceFolderName() {

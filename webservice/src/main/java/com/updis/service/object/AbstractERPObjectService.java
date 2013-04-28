@@ -91,6 +91,7 @@ public abstract class AbstractERPObjectService<T extends ConvertibleERPObject> i
     }
 
     private ERPConfig getERPConfig() {
-        return ERPConfig.cloneERPConfig(erpConfig, getModelName());
+        erpConfig.setModelName(getModelName());
+        return erpConfig;
     }
 }

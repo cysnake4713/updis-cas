@@ -1,9 +1,9 @@
 package com.updis.erpclient;
 
+import com.updis.erpclient.config.ERPConfig;
 import com.updis.erpclient.connector.Connector;
 import com.updis.erpclient.connector.XMLRPCConnector;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.env.Environment;
 
 import java.net.MalformedURLException;
 
@@ -15,16 +15,14 @@ import java.net.MalformedURLException;
  * @author: shrek.zhou
  */
 abstract class ServiceBase {
-    //    private static String SERVER_URL = "http://localhost:8069/xmlrpc/";
-    private static String SERVER_URL_PROPERTY = "updis.erp.server.url";
-    private Connector connector;
     @Autowired
-    private Environment environment;
+    private ERPConfig erpConfig;
+    private Connector connector;
 
     public Connector getConnector() throws MalformedURLException {
         if (connector == null) {
             StringBuffer stringBuffer = new StringBuffer();
-            stringBuffer.append(environment.getProperty(SERVER_URL_PROPERTY));
+            stringBuffer.append(erpConfig.getUrlAddress());
             stringBuffer.append(getServiceName());
             connector = new XMLRPCConnector(stringBuffer.toString());
         }

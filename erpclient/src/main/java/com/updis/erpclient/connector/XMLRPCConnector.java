@@ -16,7 +16,6 @@ import java.util.List;
  * @author: shrek.zhou
  */
 public class XMLRPCConnector implements Connector {
-    private String serverUrl;
     private XmlRpcClient client;
 
     public XMLRPCConnector(String serverUrl) throws MalformedURLException {
@@ -26,11 +25,6 @@ public class XMLRPCConnector implements Connector {
         config.setEnabledForExtensions(true);
         client = new XmlRpcClient();
         client.setConfig(config);
-
-    }
-
-    public String getServerUrl() {
-        return serverUrl;
     }
 
     @Override

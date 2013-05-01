@@ -2,7 +2,6 @@ package com.updis.rest;
 
 import com.updis.entity.User;
 import com.updis.erpclient.criteria.Criteria;
-import com.updis.service.converter.ERPObjectConvertService;
 import com.updis.service.object.ERPObjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -38,9 +37,11 @@ public class UserResource extends AbstractResource {
         Map<String,Object> objectMap = new HashMap<String, Object>();
         switch (flag) {
             case 1:
-                 objectMap.put("data",findUsers(deptId));
+                objectMap.put("data",findUsers(deptId));
+                break;
             case 2:
                 objectMap.put("data",findUser(userId));
+                break;
         }
         return objectMap;
     }

@@ -11,7 +11,6 @@ import java.util.Map;
  * User: Zhou Guangwen
  * Date: 4/5/13
  * Time: 5:51 PM
- * To change this template use File | Settings | File Templates.
  */
 public interface ERPObjectService<T extends ConvertibleERPObject> {
     T getById(Integer id, String serverPath, String contextPath, String... fields);

@@ -69,7 +69,7 @@ public class MessageResource extends AbstractResource {
     public Map<String, Object> fetchDetail(@RequestParam("uuid") String uuid, @RequestParam("contentId") Integer contentId) {
         Map<String, Object> objectMap = new HashMap<String, Object>();
         Map<String, Object> data = new HashMap<String, Object>();
-        MessageDetail messageDetail = (MessageDetail) messageDetailService.getById(contentId, getResourceDir(), getContextPath(), "name", "create_uid", "fbbm", "write_date", "image", "read_times", "message_ids");
+        MessageDetail messageDetail = (MessageDetail) messageDetailService.getById(contentId, getResourceDir(), getContextPath(), "name", "create_uid", "fbbm", "write_date", "image", "read_times", "message_ids", "content");
         data.put("content", messageDetail);
         data.put("comment", messageDetail.getComments());
         objectMap.put("data", data);
@@ -88,6 +88,7 @@ public class MessageResource extends AbstractResource {
     public Map<String, Object> fetchLatest() {
         Map<String, Object> objectMap = new HashMap<String, Object>();
 
+        @SuppressWarnings("deprecation")
         Date d = new Date(113, 3, 23, 23, 59, 59);
         List<MessageDetail> messageDetails = messageDetailService.getMesagesBetweenDate(d, new Date());
         objectMap.put("data", messageDetails);

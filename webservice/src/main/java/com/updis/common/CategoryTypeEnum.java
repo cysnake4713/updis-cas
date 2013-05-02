@@ -10,7 +10,8 @@ package com.updis.common;
 public enum CategoryTypeEnum {
     NOTICE("通知", 1),
     BID("招投标信息", 2),
-    SPARE_TIME_LIFE("业余生活", 3);
+    FREE_TALK("畅所欲言", 3),
+    SPARE_TIME_LIFE("业余生活", 4);
     private String name;
     private Integer categoryTypeId;
 

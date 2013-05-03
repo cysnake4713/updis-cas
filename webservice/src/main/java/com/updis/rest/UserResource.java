@@ -72,7 +72,7 @@ public class UserResource extends AbstractResource {
                                      @RequestParam("pwd") String password,
                                      @RequestParam("mac") String mac, HttpSession session) {
         Map<String, Object> stringObjectMap = new HashMap<String, Object>();
-        LoginUser loginUser = loginUserService.findUser(username, password);
+        LoginUser loginUser = loginUserService.findUser(username, password.toLowerCase());
         if (loginUser != null) {
             stringObjectMap.put("success", "1");
             session.setAttribute("user", loginUser);

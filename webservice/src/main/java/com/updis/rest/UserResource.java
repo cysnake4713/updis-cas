@@ -1,18 +1,21 @@
 package com.updis.rest;
 
+import com.updis.entity.LoginUser;
 import com.updis.entity.User;
 import com.updis.erpclient.criteria.Criteria;
 import com.updis.service.object.ERPObjectService;
+import com.updis.service.object.LoginUserERPObjectService;
+import com.updis.service.object.UserERPObjectService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import javax.servlet.http.HttpSession;
+import java.util.*;
 
 /**
  * Created with IntelliJ IDEA.
@@ -24,8 +27,11 @@ import java.util.Map;
 @Controller
 @RequestMapping("/users")
 public class UserResource extends AbstractResource {
+    private Logger logger = LoggerFactory.getLogger(UserResource.class);
     @Autowired
     private ERPObjectService userService;
+    @Autowired
+    private LoginUserERPObjectService loginUserService;
 
     @RequestMapping("/queryPerson")
     @ResponseBody
@@ -58,6 +64,23 @@ public class UserResource extends AbstractResource {
         List<Criteria> criterias = Arrays.asList(new Criteria[]{criteria});
         List<User> users = userService.find(criterias, getResourceDir(), getContextPath());
         return users.get(0);
+    }
+
+    @RequestMapping("/login")
+    @ResponseBody
+    public Map<String, Object> login(@RequestParam("username") String username,
+                                     @RequestParam("pwd") String password,
+                                     @RequestParam("mac") String mac, HttpSession session) {
+        Map<String, Object> stringObjectMap = new HashMap<String, Object>();
+        LoginUser loginUser = loginUserService.findUser(username, password);
+        if (loginUser != null) {
+            stringObjectMap.put("success", "1");
+            session.setAttribute("user", loginUser);
+        } else {
+            stringObjectMap.put("success", "0");
+        }
+
+        return stringObjectMap;
     }
 
     @Override

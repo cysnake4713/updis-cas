@@ -13,6 +13,14 @@
     <listener>
         <listener-class>com.updis.pushNotification.PushListener</listener-class>
     </listener>
+    <filter>
+        <filter-name>loginVerifyFilterter</filter-name>
+        <filter-class>com.updis.rest.LoginVerifyFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>loginVerifyFilterter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
     <servlet>
         <servlet-name>dispatcherServlet</servlet-name>
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>

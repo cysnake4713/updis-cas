@@ -12,7 +12,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
     <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
     <title>UpdisERP</title>
-    <link rel="shortcut icon" href="/web/static/src/img/favicon.ico" type="image/x-icon"/>
+    <link rel="shortcut icon" href="/cas/img/favicon.ico" type="image/x-icon"/>
     <link rel="stylesheet" href="/cas/css/full.css"/>
     <link rel="stylesheet" href="/cas/css/detail.css"/>
 </head>
@@ -32,7 +32,7 @@
                         <div class="oe_login_bottom"></div>
                         <div class="oe_login_error_message"></div>
                         <div class="oe_login_pane">
-                            <div class="oe_login_logo"><img src="/web/static/src/img/logo2.png"></div>
+                            <div class="oe_login_logo"><img src="/cas/img/logo.png"></div>
                             <form:form method="post" id="fm1" commandName="${commandName}" htmlEscape="true">
                                 <form:errors path="*" id="msg" cssClass="errors" element="div"/>
                                 <ul>

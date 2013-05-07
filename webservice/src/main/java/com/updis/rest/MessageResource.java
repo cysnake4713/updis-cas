@@ -53,7 +53,7 @@ public class MessageResource extends AbstractResource {
         }
         criterias.add(new Criteria("category_id", "=", categoryId));
         try {
-            messageDetails = messageDetailService.find(criterias, "write_date desc", offset, pageSize, null, false, getResourceDir(), getContextPath(), "name", "create_uid", "write_date", "image");
+            messageDetails = messageDetailService.find(criterias, "write_date desc", offset, pageSize, null, false, getResourceDir(), getContextPath(), "name", "create_uid", "create_date_display", "image");
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
         }
@@ -69,7 +69,7 @@ public class MessageResource extends AbstractResource {
     public Map<String, Object> fetchDetail(@RequestParam("uuid") String uuid, @RequestParam("contentId") Integer contentId) {
         Map<String, Object> objectMap = new HashMap<String, Object>();
         Map<String, Object> data = new HashMap<String, Object>();
-        MessageDetail messageDetail = (MessageDetail) messageDetailService.getById(contentId, getResourceDir(), getContextPath(), "name", "create_uid", "fbbm", "write_date", "image", "read_times", "message_ids", "content");
+        MessageDetail messageDetail = (MessageDetail) messageDetailService.getById(contentId, getResourceDir(), getContextPath(), "name", "create_uid", "fbbm", "create_date_display", "image", "read_times", "message_ids", "content");
         data.put("content", messageDetail);
         data.put("comment", messageDetail.getComments());
         objectMap.put("data", data);
@@ -88,11 +88,10 @@ public class MessageResource extends AbstractResource {
     public Map<String, Object> fetchLatest() {
         Map<String, Object> objectMap = new HashMap<String, Object>();
 
-        @SuppressWarnings("deprecation")
-        Date d = new Date(113, 3, 23, 23, 59, 59);
-        List<MessageDetail> messageDetails = messageDetailService.getMesagesBetweenDate(d, new Date());
+        Date f = new Date(new Date().getTime() - 60 * 1000);
+        Date t = new Date();
+        List<MessageDetail> messageDetails = messageDetailService.getMesagesBetweenDate(f, t);
         objectMap.put("data", messageDetails);
-        objectMap.put("success", "0");
         return objectMap;
     }
 

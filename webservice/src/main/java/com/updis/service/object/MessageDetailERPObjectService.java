@@ -47,7 +47,8 @@ public class MessageDetailERPObjectService extends AbstractERPObjectService {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMdd HH:mm:ss");
         criterias.add(new Criteria("create_date_display", ">", formatter.format(fromDate)));
         criterias.add(new Criteria("create_date_display", "<", formatter.format(toDate)));
-        messageDetails = find(criterias, null, null, "name", "id", "create_date_display");
+//        messageDetails = find(criterias, null, null, "name", "id", "create_date_display");
+        messageDetails = find(criterias, "create_date_display desc", 0, 30, null, false, null, null, "name", "id", "create_date_display");
 
         // 有时候ERP会抽风返回一大堆数据,具体原因不明,只能暂时这样做一下过滤.
         if (messageDetails != null) {
@@ -58,6 +59,7 @@ public class MessageDetailERPObjectService extends AbstractERPObjectService {
                     Date messageCreateDate = createDateFormatter.parse(message.getDatetime());
                     if (messageCreateDate.getTime() < fromDate.getTime() ||
                             messageCreateDate.getTime() > toDate.getTime()) {
+                        logger.debug("不知道哪抽风了,返回了不符合条件的数据");
                         iter.remove();
                     }
                 } catch (ParseException e) {
@@ -67,11 +69,6 @@ public class MessageDetailERPObjectService extends AbstractERPObjectService {
             }
         }
 
-//        List<MessageDetail> messageDetails = new ArrayList<MessageDetail>();
-//        MessageDetail m = new MessageDetail();
-//        m.setContentId(10135);
-//        m.setTitle("测试用标题,这是个好人");
-//        messageDetails.add(m);
         return messageDetails;
     }
 }

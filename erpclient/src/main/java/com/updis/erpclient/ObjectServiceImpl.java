@@ -3,6 +3,8 @@ package com.updis.erpclient;
 import com.updis.erpclient.config.ERPConfig;
 import com.updis.erpclient.criteria.Criteria;
 import com.updis.erpclient.criteria.CriteriaService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -21,6 +23,8 @@ import java.util.Map;
 @Component
 public class ObjectServiceImpl extends ServiceBase implements ObjectService {
     private static String SERVICE_NAME = "object";
+    private Logger logger = LoggerFactory.getLogger(ObjectServiceImpl.class);
+
     @Autowired
     private CriteriaService criteriaService;
 
@@ -93,6 +97,29 @@ public class ObjectServiceImpl extends ServiceBase implements ObjectService {
         p.add(config.getModelName());
         p.add(method);
         p.addAll(Arrays.asList(params));
+
+        try {
+            StringBuffer paramsSB = new StringBuffer();
+            for(Object param : params) {
+                // criterias
+                if (param instanceof Object[]) {
+                    Object[] criterias = (Object[])param;
+                    for (Object criteria : criterias) {
+                        Object[] criteriaTuple = (Object[])criteria;
+                        paramsSB.append("['").append(criteriaTuple[0].toString()).append("', '")
+                                .append(criteriaTuple[1].toString()).append("', '")
+                                .append(criteriaTuple[2].toString()).append("'] ");
+                    }
+                } else {
+                    paramsSB.append(param == null ? "null " : param.toString() + " ");
+                }
+            }
+            logger.debug("ERP xmlrpc params:" + config.getDb() + " " + config.getUid() + " " + config.getPassword() + " " + config.getModelName() + " "
+                    + method + " " + paramsSB.toString());
+        }catch (Exception e) {
+            // ignore exceptions.
+        }
+
         return this.getConnector().send("execute", p);
     }
 

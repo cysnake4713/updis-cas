@@ -34,11 +34,6 @@ public class ObjectServiceImpl extends ServiceBase implements ObjectService {
     }
 
     @Override
-    public List<Map<String, Object>> read(ERPConfig config, List<Integer> ids) throws Exception {
-        return this.read(config, ids, null);
-    }
-
-    @Override
     public List<Map<String, Object>> searchRead(ERPConfig config, List<Criteria> domain, String... fields) throws Exception {
         return this.read(config, this.search(config, domain), fields);
     }
@@ -69,11 +64,6 @@ public class ObjectServiceImpl extends ServiceBase implements ObjectService {
     }
 
     @Override
-    public Integer create(ERPConfig config, Map<String, Object> vals) throws Exception {
-        return (Integer) this.getConnector().send("execute", config.getDb(), config.getUid(), config.getPassword(), config.getModelName(), "create", vals);
-    }
-
-    @Override
     public List<Map<String, Object>> read(ERPConfig config, List<Integer> ids, String... fields) throws Exception {
         Object[] results = (Object[]) this.getConnector().send("execute", config.getDb(), config.getUid(), config.getPassword(), config.getModelName(), "read", ids, fields);
         List<Map<String, Object>> ret = new ArrayList<Map<String, Object>>(results.length);
@@ -84,10 +74,19 @@ public class ObjectServiceImpl extends ServiceBase implements ObjectService {
     }
 
     @Override
+    public List<Map<String, Object>> read(ERPConfig config, List<Integer> ids) throws Exception {
+        return this.read(config, ids, null);
+    }
+
+    @Override
     public Boolean update(ERPConfig config, List<Integer> ids, Map<String, Object> vals) throws Exception {
         return (Boolean) this.getConnector().send("execute", config.getDb(), config.getUid(), config.getPassword(), config.getModelName(), "write", ids, vals);
     }
 
+    @Override
+    public Integer create(ERPConfig config, Map<String, Object> vals) throws Exception {
+        return (Integer) this.getConnector().send("execute", config.getDb(), config.getUid(), config.getPassword(), config.getModelName(), "create", vals);
+    }
 
     private Object execute(ERPConfig config, String method, Object[] params) throws Exception {
         List<Object> p = new ArrayList<Object>();

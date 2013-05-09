@@ -20,18 +20,6 @@ public class Message implements ConvertibleERPObject {
     private String iconUrl;
     private String datetime;
 
-    public Message() {
-    }
-
-    public Message(Integer contentId, String subtitle, String author, String title, String iconUrl, String datetime) {
-        this.contentId = contentId;
-        this.subtitle = subtitle;
-        this.author = author;
-        this.title = title;
-        this.iconUrl = iconUrl;
-        this.datetime = datetime;
-    }
-
     public String getTitle() {
         return title;
     }

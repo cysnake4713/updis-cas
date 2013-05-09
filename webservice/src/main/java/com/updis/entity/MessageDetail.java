@@ -20,17 +20,26 @@ public class MessageDetail implements ConvertibleERPObject {
     private String title;
     private String iconUrl;
     private String datetime;
-    private String fbbm;
+    private String dept;
     private Integer readCount;
     private List<Comment> comments;
     private String content;
+    private String category;
 
-    public String getFbbm() {
-        return fbbm;
+    public String getCategory() {
+        return category;
     }
 
-    public void setFbbm(String fbbm) {
-        this.fbbm = fbbm;
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public String getDept() {
+        return dept;
+    }
+
+    public void setDept(String dept) {
+        this.dept = dept;
     }
 
     public Integer getReadCount() {

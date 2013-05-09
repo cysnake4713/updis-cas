@@ -23,9 +23,10 @@ public class MessageDetailERPObjectConvertService extends AbstractERPObjectConve
         paramMap.put("create_date_display", "datetime");
         paramMap.put("image_small", "iconUrl");
         paramMap.put("image", "iconUrl");
-        paramMap.put("fbbm", "fbbm");
+        paramMap.put("department_id", "dept");
         paramMap.put("read_times", "readCount");
         paramMap.put("content", "content");
+        paramMap.put("category_id_name", "category");
     }
 
     @Override

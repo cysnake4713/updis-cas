@@ -25,7 +25,7 @@ import static org.quartz.TriggerBuilder.newTrigger;
 public class PushListener implements ServletContextListener{
 
     private Logger logger = LoggerFactory.getLogger(PushListener.class);
-    public static final int PULL_INTERVAL_MINUTE = 60;
+    public static final int PULL_INTERVAL_MINUTE = 1;
     private Scheduler scheduler;
 
     @Override
@@ -35,7 +35,7 @@ public class PushListener implements ServletContextListener{
         map.put("servletContext", servletContext);
         JobDetail pushJob = newJob(PushJob.class).withIdentity("job").usingJobData(map).build();
         Trigger trigger = newTrigger().withIdentity("trigger").startNow()
-                            .withSchedule(simpleSchedule().withIntervalInSeconds(PushListener.PULL_INTERVAL_MINUTE).repeatForever())
+                            .withSchedule(simpleSchedule().withIntervalInMinutes(PushListener.PULL_INTERVAL_MINUTE).repeatForever())
                             .build();
         try {
             scheduler = new StdSchedulerFactory().getScheduler();

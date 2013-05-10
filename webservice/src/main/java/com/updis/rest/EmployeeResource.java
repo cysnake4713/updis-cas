@@ -1,10 +1,9 @@
 package com.updis.rest;
 
-import com.updis.entity.LoginUser;
+import com.updis.entity.Employee;
 import com.updis.entity.User;
 import com.updis.erpclient.criteria.Criteria;
 import com.updis.service.object.ERPObjectService;
-import com.updis.service.object.LoginUserERPObjectService;
 import com.updis.service.object.UserERPObjectService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,12 +25,12 @@ import java.util.*;
  */
 @Controller
 @RequestMapping("/users")
-public class UserResource extends AbstractResource {
-    private Logger logger = LoggerFactory.getLogger(UserResource.class);
+public class EmployeeResource extends AbstractResource {
+    private Logger logger = LoggerFactory.getLogger(EmployeeResource.class);
     @Autowired
-    private ERPObjectService userService;
+    private ERPObjectService employeeService;
     @Autowired
-    private LoginUserERPObjectService loginUserService;
+    private UserERPObjectService userService;
 
     @RequestMapping("/queryPerson")
     @ResponseBody
@@ -52,18 +51,18 @@ public class UserResource extends AbstractResource {
         return objectMap;
     }
 
-    private List<User> findUsers(Integer deptId) {
+    private List<Employee> findUsers(Integer deptId) {
         Criteria criteria = new Criteria("department_id", "=", deptId);
         List<Criteria> criterias = Arrays.asList(new Criteria[]{criteria});
-        List<User> users = userService.find(criterias, "name_related", "image_small");
-        return users;
+        List<Employee> employees = employeeService.find(criterias, "name_related", "image_small");
+        return employees;
     }
 
-    private User findUser(Integer userId) {
+    private Employee findUser(Integer userId) {
         Criteria criteria = new Criteria("id", "=", userId);
         List<Criteria> criterias = Arrays.asList(new Criteria[]{criteria});
-        List<User> users = userService.find(criterias, getResourceDir(), getContextPath());
-        return users.get(0);
+        List<Employee> employees = employeeService.find(criterias, getResourceDir(), getContextPath());
+        return employees.get(0);
     }
 
     @RequestMapping("/login")
@@ -72,10 +71,10 @@ public class UserResource extends AbstractResource {
                                      @RequestParam("pwd") String password,
                                      @RequestParam("mac") String mac, HttpSession session) {
         Map<String, Object> stringObjectMap = new HashMap<String, Object>();
-        LoginUser loginUser = loginUserService.findUser(username, password.toLowerCase());
-        if (loginUser != null) {
+        User user = userService.findUser(username, password.toLowerCase());
+        if (user != null) {
             stringObjectMap.put("success", "1");
-            session.setAttribute("user", loginUser);
+            session.setAttribute("user", user);
         } else {
             stringObjectMap.put("success", "0");
         }

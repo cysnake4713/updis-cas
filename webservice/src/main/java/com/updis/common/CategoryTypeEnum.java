@@ -29,6 +29,15 @@ public enum CategoryTypeEnum {
         throw new IllegalArgumentException("Category type not recognized.");
     }
 
+    public static CategoryTypeEnum getByCategoryName(String categoryName) {
+        for (CategoryTypeEnum categoryTypeEnum : values()) {
+            if (categoryTypeEnum.getName().equals(categoryName)) {
+                return categoryTypeEnum;
+            }
+        }
+        throw new IllegalArgumentException("Category name not recognized.");
+    }
+
     public String getName() {
         return name;
     }

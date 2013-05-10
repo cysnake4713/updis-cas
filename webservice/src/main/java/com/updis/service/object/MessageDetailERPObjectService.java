@@ -80,6 +80,14 @@ public class MessageDetailERPObjectService extends AbstractERPObjectService {
             }
         }
 
+//        messageDetails.clear();
+//        MessageDetail mess = new MessageDetail();
+//        mess.setDatetime(formatter.format(new Date(new Date().getTime() - 5000)));
+//        mess.setCategory("通知");
+//        mess.setContentId(1234567);
+//        mess.setTitle("本地用测试消息4");
+//        messageDetails.add(mess);
+
         return messageDetails;
     }
 }

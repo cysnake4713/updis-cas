@@ -1,5 +1,6 @@
 package com.updis.pushNotification;
 
+import com.updis.common.CategoryTypeEnum;
 import com.updis.entity.MessageDetail;
 import com.updis.service.object.MessageDetailERPObjectService;
 import org.apache.commons.codec.digest.DigestUtils;
@@ -49,7 +50,7 @@ public class PushJob implements Job {
         List<MessageDetail> messageDetails = new ArrayList<MessageDetail>();
         for (int i = 0; i <= 3; i++) {
             try {
-                messageDetails = messageDetailService.getMesagesBetweenDate(fromDate, toDate);
+                messageDetails = messageDetailService.getPushableMesagesBetweenDate(fromDate, toDate);
                 pushMessages(messageDetails);
                 break;
             } catch (Exception e) {
@@ -97,12 +98,17 @@ public class PushJob implements Job {
         String returnValue = "";
 
         Map<String, Object> messageContent = new HashMap<String, Object>();
-        Map<String, String> extras = new HashMap<String, String>();
-        messageContent.put("n_content", message.getTitle());
-        extras.put("messageId", message.getContentId() + "");
-        messageContent.put("n_extras", extras);
+        messageContent.put("message", message.getCategory() + ":" + message.getTitle());
+        messageContent.put("content_type", "text");
+
+        Map<String, Object> extras = new HashMap<String, Object>();
+        extras.put("messageId", message.getContentId());
+        Integer messageType = CategoryTypeEnum.getByCategoryName(message.getCategory()).getCategoryTypeId();
+        extras.put("messageType", messageType);
+        messageContent.put("extras", extras);
         try {
             returnValue = new ObjectMapper().writeValueAsString(messageContent);
+            logger.debug("pushMessage content:" + returnValue);
         } catch (Exception e) {
             logger.error(e.getMessage(),e);
         }
@@ -116,9 +122,16 @@ class PushJobConfig {
     private String appKey = "f1b5f4b4b93d29300ec3ae1d";
     private String receiveType = "2";
     private String receiveValue = "default";
-    private String messageType = "1";
+    private String messageType = "2";
     private String platform = "android";
     private String masterSecret = "732c0c785e57e0c10cb9f05a";
+
+//    private String appKey = "f7ac7c23cb85d131df8102d5";
+//    private String receiveType = "4";
+//    private String receiveValue = "";
+//    private String messageType = "2";
+//    private String platform = "android";
+//    private String masterSecret = "4255be3a1d76009cb58361f4";
 
     String getAppKey() {
         return appKey;

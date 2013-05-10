@@ -42,8 +42,15 @@ public class MessageResource extends AbstractResource {
                                                 @RequestParam(value = "currentPage", defaultValue = "1") Integer currentPage,
                                                 @RequestParam(value = "pageSize", defaultValue = "20") Integer pageSize) {
         Map<String, Object> objectMap = new HashMap<String, Object>();
+        int offset = (currentPage - 1) * pageSize;
+
+        if (offset < 0) {
+            objectMap.put("data",null);
+            objectMap.put("errorMessage", "currentPage cannot be zero or negative");
+            return objectMap;
+        }
+
         List<MessageDetail> messageDetails = new ArrayList<MessageDetail>();
-        int offset = currentPage * pageSize;
         int categoryId = 0;
         List<Criteria> criterias = new ArrayList<Criteria>();
         try {
@@ -51,9 +58,9 @@ public class MessageResource extends AbstractResource {
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
         }
-        criterias.add(new Criteria("category_id", "=", categoryId));
+        // criterias.add(new Criteria("category_id", "=", categoryId));
         try {
-            messageDetails = messageDetailService.find(criterias, "write_date desc", offset, pageSize, null, false, getResourceDir(), getContextPath(), "name", "create_uid", "create_date_display", "image");
+            messageDetails = messageDetailService.find(criterias, "id desc", offset, pageSize, null, false, getResourceDir(), getContextPath(), "name", "create_uid", "create_date_display", "image", "department_id", "category_id_name");
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
         }
@@ -88,9 +95,9 @@ public class MessageResource extends AbstractResource {
     public Map<String, Object> fetchLatest() {
         Map<String, Object> objectMap = new HashMap<String, Object>();
 
-        Date f = new Date(new Date().getTime() - 60 * 1000);
+        Date f = new Date(new Date().getTime() - 100000 * 60 * 1000);
         Date t = new Date();
-        List<MessageDetail> messageDetails = messageDetailService.getMesagesBetweenDate(f, t);
+        List<MessageDetail> messageDetails = messageDetailService.getPushableMesagesBetweenDate(f, t);
         objectMap.put("data", messageDetails);
         return objectMap;
     }

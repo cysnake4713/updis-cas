@@ -49,10 +49,13 @@ public class MessageDetailERPObjectService extends AbstractERPObjectService {
         List<MessageDetail> messageDetails;
 
         List<Criteria> criterias = new ArrayList<Criteria>();
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMdd HH:mm:ss");
-        criterias.add(new Criteria("create_date_display", ">", formatter.format(fromDate)));
-        criterias.add(new Criteria("create_date_display", "<", formatter.format(toDate)));
-        messageDetails = find(criterias, "id desc", 0, 40, null, false, null, null, "name", "id", "create_date_display", "category_id_name");
+        // create_date_display 和 create_date 有 8 个小时的时间偏移.
+        Date fromDateAfterOffset = new Date(fromDate.getTime() - 8 * 60 * 60 * 1000);
+        Date toDateAfterOffset = new Date(toDate.getTime() - 8 * 60 * 60 * 1000);
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        criterias.add(new Criteria("create_date", ">", formatter.format(fromDateAfterOffset)));
+        criterias.add(new Criteria("create_date", "<", formatter.format(toDateAfterOffset)));
+        messageDetails = find(criterias, null, 0, 40, null, false, null, null, "name", "id", "create_date_display", "category_id_name");
 
         // 有时候ERP会抽风返回一大堆数据,具体原因不明,只能暂时这样做一下过滤.
         if (messageDetails != null) {

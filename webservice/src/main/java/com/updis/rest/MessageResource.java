@@ -60,7 +60,7 @@ public class MessageResource extends AbstractResource {
         }
         // criterias.add(new Criteria("category_id", "=", categoryId));
         try {
-            messageDetails = messageDetailService.find(criterias, "id desc", offset, pageSize, null, false, getResourceDir(), getContextPath(), "name", "create_uid", "create_date_display", "image", "department_id", "category_id_name");
+            messageDetails = messageDetailService.find(criterias, null, offset, pageSize, null, false, getResourceDir(), getContextPath(), "name", "create_uid", "create_date_display", "image", "department_id", "category_id_name");
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
         }

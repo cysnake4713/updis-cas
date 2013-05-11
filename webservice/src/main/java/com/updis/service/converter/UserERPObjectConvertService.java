@@ -19,6 +19,8 @@ public class UserERPObjectConvertService extends AbstractERPObjectConvertService
         paramMap.put("id", "userId");
         paramMap.put("login", "username");
         paramMap.put("password_crypt", "password");
+        paramMap.put("mobile_phone", "mobileNumber");
+        paramMap.put("devices", "devices");
     }
 
     @Override

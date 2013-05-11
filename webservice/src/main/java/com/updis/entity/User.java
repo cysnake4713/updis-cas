@@ -11,6 +11,8 @@ public class User implements ConvertibleERPObject {
     private Integer userId;
     private String username;
     private String password;
+    private String mobileNumber;
+    private Object[] devices;
 
     public Integer getUserId() {
         return userId;
@@ -34,5 +36,21 @@ public class User implements ConvertibleERPObject {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getMobileNumber() {
+        return mobileNumber;
+    }
+
+    public void setMobileNumber(String mobileNumber) {
+        this.mobileNumber = mobileNumber;
+    }
+
+    public Object[] getDevices() {
+        return devices;
+    }
+
+    public void setDevices(Object[] devices) {
+        this.devices = devices;
     }
 }

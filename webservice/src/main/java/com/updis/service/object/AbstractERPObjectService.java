@@ -19,15 +19,13 @@ import java.util.Map;
  * User: Zhou Guangwen
  * Date: 4/5/13
  * Time: 5:36 PM
- * To change this template use File | Settings | File Templates.
  */
 public abstract class AbstractERPObjectService<T extends ConvertibleERPObject> implements ERPObjectService<T> {
     private Logger logger = LoggerFactory.getLogger(AbstractERPObjectService.class);
     @Autowired
-    private ObjectService objectService;
+    protected ObjectService objectService;
     @Autowired
-    private ERPConfig erpConfig;
-
+    protected ERPConfig erpConfig;
 
     protected abstract String getModelName();
 
@@ -85,9 +83,9 @@ public abstract class AbstractERPObjectService<T extends ConvertibleERPObject> i
             List<Integer> integers = objectService.search(getERPConfig(), criterias, 0, null, null, null, true);
             return integers.get(0);
         } catch (Exception e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            logger.error(e.getMessage(), e);
+            return 0;
         }
-        return 0;
     }
 
     private ERPConfig getERPConfig() {

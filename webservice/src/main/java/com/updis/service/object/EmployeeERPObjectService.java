@@ -18,7 +18,7 @@ public class EmployeeERPObjectService extends AbstractERPObjectService<Employee>
 
     private static final String MODEL_NAME = "hr.employee";
     @Autowired
-    private ERPObjectConvertService userConverter;
+    private ERPObjectConvertService employeeConverter;
 
     @Override
     public String getModelName() {
@@ -27,6 +27,6 @@ public class EmployeeERPObjectService extends AbstractERPObjectService<Employee>
 
     @Override
     public ERPObjectConvertService getObjectConverter() {
-        return userConverter;
+        return employeeConverter;
     }
 }

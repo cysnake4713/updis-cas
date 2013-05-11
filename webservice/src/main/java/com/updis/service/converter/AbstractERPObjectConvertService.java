@@ -73,21 +73,27 @@ public abstract class AbstractERPObjectConvertService<T extends ConvertibleERPOb
 
     protected void setAttribute(T obj, String attribute, Object value) {
         Class<?> cls = obj.getClass();
-        if (value instanceof Object[]) {
-            Object[] arr = (Object[]) value;
-            value = arr[1];
-        }
         try {
             Field field = cls.getDeclaredField(attribute);
             ReflectionUtils.makeAccessible(field);
 
-            // erp 返回为 false时,代表是空
-            if (field.getType().equals(String.class) && value.getClass().equals(Boolean.class)) {
+            if (value.getClass().equals(Boolean.class) && !field.getType().equals(Boolean.class)) { // 处理返回 false 代表空的情况.
                 Boolean b = (Boolean)value;
                 if (b.equals(Boolean.FALSE)) {
                     field.set(obj, null);
                 } else {
-                    field.set(obj, "true");
+                    if (field.getType().equals(String.class)) {
+                        field.set(obj, "true");
+                    } else {
+                        field.set(obj, null);
+                    }
+                }
+            } else if (value instanceof Object[]){ // 处理返回 Object[] 的情况.
+                if (field.getType().isArray()) {
+                    field.set(obj, value);
+                } else {
+                    Object[] temp = (Object[])value;
+                    field.set(obj, temp[1]);
                 }
             } else {
                 field.set(obj, value);

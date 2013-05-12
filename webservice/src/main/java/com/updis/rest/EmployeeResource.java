@@ -1,5 +1,6 @@
 package com.updis.rest;
 
+import com.updis.common.SendSMSJob;
 import com.updis.entity.Employee;
 import com.updis.entity.User;
 import com.updis.erpclient.criteria.Criteria;
@@ -65,18 +66,113 @@ public class EmployeeResource extends AbstractResource {
         return employees.get(0);
     }
 
+    @RequestMapping("/deviceVerify")
+    @ResponseBody
+    public Map<String, Object> deviceVerify(@RequestParam("verificationCode") String verifyCode,
+                                            HttpSession session) {
+        Map<String, Object> resultMap = new HashMap<String, Object>();
+        String sessionVerifyCode = (String)session.getAttribute("verifyCode");
+        if (sessionVerifyCode == null) {
+            resultMap.put("success", 0);
+            resultMap.put("msg", "You have not logged yet.");
+        } else if (!sessionVerifyCode.equals(verifyCode)) {
+            resultMap.put("success", 0);
+            resultMap.put("msg", "Your veifyCode is wrong");
+        } else {
+            User user = (User)session.getAttribute("notVerifiedUser");
+            String mac = (String)session.getAttribute("mac");
+            boolean addResult =  userService.addDeviceIdToUsersRegisterDevice(mac, user.getUserId());
+            if (addResult) {
+                resultMap.put("success", 1);
+                resultMap.put("msg", "Verify succeed");
+                session.setAttribute("UPDIS_USER", user);
+            } else {
+                resultMap.put("success", 0);
+                resultMap.put("msg", "Unknow Internal error, please try again");
+            }
+        }
+
+        return resultMap;
+    }
+
+    @RequestMapping("/resendVerifyCode")
+    @ResponseBody
+    public Map<String, Object> resendVerifyCode(HttpSession session) {
+        Map<String, Object> resultMap = new HashMap<String, Object>();
+        String userPhoneNumber = (String)session.getAttribute("userPhoneNumber");
+        if (userPhoneNumber == null) {
+            resultMap.put("success", 0);
+        } else {
+            sendVerifyCode(userPhoneNumber, session);
+            resultMap.put("success", 1);
+        }
+
+        return resultMap;
+    }
+
     @RequestMapping("/login")
     @ResponseBody
     public Map<String, Object> login(@RequestParam("username") String username,
                                      @RequestParam("pwd") String password,
                                      @RequestParam("mac") String mac, HttpSession session) {
-        Map<String, Object> stringObjectMap = new HashMap<String, Object>();
+        Map<String, Object> resultMap = new HashMap<String, Object>();
         User user = userService.findUser(username, password.toLowerCase());
-        if (user != null) {
-            stringObjectMap.put("success", "1");
-            session.setAttribute("user", user);
-        } else {
-            stringObjectMap.put("success", "0");
+        if (user != null) {             // 用户存在.
+            resultMap.put("success", 1);
+            resultMap.put("msg", "login succeed");
+            resultMap.put("userid", user.getUserId());
+            // 判断 mac 是否在用户的设备列表中.
+            boolean isDeviceRegistered = userService.IsDeviceIdRegisterWithUser(mac.toLowerCase(), user.getUserId());
+            if (isDeviceRegistered) {   // 已存在,登录成功, session 中设置 UPDIS_USER.
+                resultMap.put("registered", 1);
+                resultMap.put("phonenum", user.getMobileNumber());
+                session.setAttribute("UPDIS_USER", user);
+                return resultMap;
+            } else {                    // 需要发短信,进行验证.
+                String userMobileNumber = user.getMobileNumber();
+                // 去填手机号吧.
+                if (userMobileNumber == null || userMobileNumber.length() != 11) {
+                    resultMap.put("registered", 99);
+                    resultMap.put("phonenum", null);
+                    return resultMap;
+                }
+
+                resultMap.put("registered", 0);
+                resultMap.put("phonenum", userMobileNumber);
+                session.setAttribute("notVerifiedUser", user); // 还未验证过的 user 对象.
+                session.setAttribute("mac", mac);
+                // 发短信进行验证.session 中设置发送的验证码号码,手机号,及发送的时间(可用作有效期).
+                sendVerifyCode(userMobileNumber, session);
+                return resultMap;
+            }
+        } else {                    // 用户不存在.
+            resultMap.put("success", 0);
+            resultMap.put("msg", "login failed");
+            resultMap.put("userid", -1);
+            resultMap.put("registered", 0);
+            resultMap.put("phonenum", null);
+            return resultMap;
+        }
+    }
+
+    private void sendVerifyCode(String userMobileNumber, HttpSession session) {
+        String verifyCode = (new Random().nextInt(999999 - 100000 + 1) + 100000) + "";
+        session.setAttribute("verifyCode", verifyCode);
+        session.setAttribute("userPhoneNumber", userMobileNumber);
+        session.setAttribute("sendDate", new Date());
+        //SendSMSJob.sendSMS(userMobileNumber, verifyCode);
+        SendSMSJob.sendSMS("18682118793", verifyCode);
+    }
+
+    @RequestMapping("/logout")
+    @ResponseBody
+    public Map<String, Object> logout(HttpSession session) {
+        session.removeAttribute("UPDIS_USER");
+        Map<String, Object> result = new HashMap<String, Object>();
+        result.put("success", "1");
+        return result;
+    }
+
         }
 
         return stringObjectMap;

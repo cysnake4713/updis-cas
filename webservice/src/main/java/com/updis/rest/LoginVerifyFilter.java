@@ -29,15 +29,23 @@ public class LoginVerifyFilter implements Filter{
 
         String path = request.getRequestURI();
         logger.debug(path);
-        if (path.startsWith("/users/login")) {   // 当前是登录路径,则不做验证.
+        String[] whiteList = {"/users/login", "/users/logout", "/users/deviceVerify", "/users/resendVerifyCode"};
+        boolean isPathInWhileList = false;
+        for (String s : whiteList) {
+            if (path.startsWith(s)) {
+                isPathInWhileList = true;
+                break;
+            }
+        }
+        if (isPathInWhileList) {   // 当前路径在白名单中.
           filterChain.doFilter(servletRequest, servletResponse);
         } else {
-            User user = (User) request.getSession(true).getAttribute("user");
+            User user = (User) request.getSession(true).getAttribute("UPDIS_USER");
             if (user != null) {
                 filterChain.doFilter(servletRequest, servletResponse);
             } else {
-                Map<String, String> map = new HashMap<String, String>();
-                map.put("success", "0");
+                Map<String, Object> map = new HashMap<String, Object>();
+                map.put("sessionTimeout", 1);
                 String mapJsonString = new ObjectMapper().writeValueAsString(map);
                 servletResponse.getWriter().println(mapJsonString);
             }

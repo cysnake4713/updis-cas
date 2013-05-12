@@ -81,7 +81,7 @@ public class UserERPObjectService extends AbstractERPObjectService<User> {
             List<Map<String, Object>> deviceRecords = objectService.read(erpConfig, deviceTableIdList);
             Set<String> deviceRealIds = new HashSet<String>();
             for (Map<String, Object> deviceRecord : deviceRecords) {
-                deviceRealIds.add((String)deviceRecord.get("device_id"));
+                deviceRealIds.add(((String)deviceRecord.get("device_id")).toLowerCase());
             }
             return deviceRealIds;
         } catch (Exception e) {

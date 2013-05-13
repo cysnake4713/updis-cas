@@ -119,19 +119,19 @@ public class PushJob implements Job {
 
 @Component
 class PushJobConfig {
-    private String appKey = "f1b5f4b4b93d29300ec3ae1d";
-    private String receiveType = "2";
-    private String receiveValue = "default";
-    private String messageType = "2";
-    private String platform = "android";
-    private String masterSecret = "732c0c785e57e0c10cb9f05a";
-
-//    private String appKey = "f7ac7c23cb85d131df8102d5";
-//    private String receiveType = "4";
-//    private String receiveValue = "";
+//    private String appKey = "f1b5f4b4b93d29300ec3ae1d";
+//    private String receiveType = "2";
+//    private String receiveValue = "default";
 //    private String messageType = "2";
 //    private String platform = "android";
-//    private String masterSecret = "4255be3a1d76009cb58361f4";
+//    private String masterSecret = "732c0c785e57e0c10cb9f05a";
+
+    private String appKey = "f7ac7c23cb85d131df8102d5";
+    private String receiveType = "4";
+    private String receiveValue = "";
+    private String messageType = "2";
+    private String platform = "android";
+    private String masterSecret = "4255be3a1d76009cb58361f4";
 
     String getAppKey() {
         return appKey;

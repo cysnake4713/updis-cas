@@ -23,7 +23,6 @@ import java.util.*;
  * User: Zhou Guangwen
  * Date: 4/5/13
  * Time: 5:20 PM
- * To change this template use File | Settings | File Templates.
  */
 @Controller
 @RequestMapping("/users")
@@ -38,25 +37,54 @@ public class EmployeeResource extends AbstractResource {
     @ResponseBody
     public Map<String, Object> queryUser(
             @RequestParam("flag") Integer flag,
-            @RequestParam(value = "userid", required = false) Integer userId,
-            @RequestParam(value = "deptid", required = false) Integer deptId,
-            @RequestParam(value = "specialtyid", required = false) Integer specialtyId) {
+            @RequestParam(value = "userId", required = false) Integer userId,
+            @RequestParam(value = "userName", required = false) String userName,
+            @RequestParam(value = "deptName", required = false) String deptName,
+            @RequestParam(value = "specialtyName", required = false) String specialtyName,
+            @RequestParam(value = "currentPage", required = false, defaultValue = "1") Integer currentPage,
+            @RequestParam(value = "pageSize", required = false, defaultValue = "20") Integer pageSize) {
         Map<String,Object> objectMap = new HashMap<String, Object>();
         switch (flag) {
             case 1:
-                objectMap.put("data",findUsers(deptId));
+                if (currentPage <= 0 || pageSize <= 0) {
+                    objectMap.put("data", null);
+                    objectMap.put("errorMsg", "Invalid pageNumber or invalid pageSize");
+                    return objectMap;
+                }
+
+                int offset = (currentPage - 1) * pageSize;
+
+                List<Criteria> criterias = new ArrayList<Criteria>();
+                if (userName != null) {
+                    criterias.add(new Criteria("name_related", "like", userName));
+                }
+                if (deptName != null) {
+                    criterias.add(new Criteria("department_id", "=", deptName));
+                }
+                if (specialtyName != null) {
+                    criterias.add(new Criteria("major", "=", specialtyName));
+                }
+                objectMap.put("data",findUsersByCriterias(criterias, offset, pageSize));
+                int totalPage = (int) Math.ceil(employeeService.count(criterias, null) / Double.valueOf(pageSize));
+                System.out.println(employeeService.count(criterias, null));
+                objectMap.put("total_page", totalPage);
                 break;
             case 2:
-                objectMap.put("data",findUser(userId));
+                if (userId <= 0) {
+                    objectMap.put("data", "Invalid userId");
+                } else {
+                    objectMap.put("data",findUser(userId));
+                }
+                break;
+            default:
+                objectMap.put("data", "Invalid flag");
                 break;
         }
         return objectMap;
     }
 
-    private List<Employee> findUsers(Integer deptId) {
-        Criteria criteria = new Criteria("department_id", "=", deptId);
-        List<Criteria> criterias = Arrays.asList(new Criteria[]{criteria});
-        List<Employee> employees = employeeService.find(criterias, "name_related", "image_small");
+    private List<Employee> findUsersByCriterias(List<Criteria> criterias, Integer offset, Integer pageSize) {
+        List<Employee> employees = employeeService.find(criterias, null, offset, pageSize, null, false, getResourceDir(), getContextPath());
         return employees;
     }
 

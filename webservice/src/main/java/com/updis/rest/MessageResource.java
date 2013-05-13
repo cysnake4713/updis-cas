@@ -51,14 +51,10 @@ public class MessageResource extends AbstractResource {
         }
 
         List<MessageDetail> messageDetails = new ArrayList<MessageDetail>();
-        int categoryId = 0;
         List<Criteria> criterias = new ArrayList<Criteria>();
-        try {
-            categoryId = getCategoryId(categoryType);
-        } catch (Exception e) {
-            logger.error(e.getMessage(), e);
-        }
-        // criterias.add(new Criteria("category_id", "=", categoryId));
+
+        String categoryName = CategoryTypeEnum.getByCategoryTypeId(categoryType).getName();
+        criterias.add(new Criteria("category_id_name", "=", categoryName));
         try {
             messageDetails = messageDetailService.find(criterias, null, offset, pageSize, null, false, getResourceDir(), getContextPath(), "name", "create_uid", "create_date_display", "image", "department_id", "category_id_name");
         } catch (Exception e) {
@@ -81,13 +77,6 @@ public class MessageResource extends AbstractResource {
         data.put("comment", messageDetail.getComments());
         objectMap.put("data", data);
         return objectMap;
-    }
-
-    private Integer getCategoryId(Integer categoryTypeId) throws Exception {
-        CategoryTypeEnum categoryTypeEnum = CategoryTypeEnum.getByCategoryTypeId(categoryTypeId);
-        erpConfig.setModelName("message.category");
-        List<Integer> ids = objectService.search(erpConfig, Arrays.asList(new Criteria[]{new Criteria("name", "=", categoryTypeEnum.getName())}));
-        return ids.get(0);
     }
 
     @RequestMapping("/fetchLatest")

@@ -5,6 +5,7 @@ import com.updis.entity.Employee;
 import com.updis.entity.User;
 import com.updis.erpclient.criteria.Criteria;
 import com.updis.service.object.ERPObjectService;
+import com.updis.service.object.EmployeeERPObjectService;
 import com.updis.service.object.UserERPObjectService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,7 +30,7 @@ import java.util.*;
 public class EmployeeResource extends AbstractResource {
     private Logger logger = LoggerFactory.getLogger(EmployeeResource.class);
     @Autowired
-    private ERPObjectService employeeService;
+    private EmployeeERPObjectService employeeService;
     @Autowired
     private UserERPObjectService userService;
 
@@ -64,6 +65,17 @@ public class EmployeeResource extends AbstractResource {
         List<Criteria> criterias = Arrays.asList(new Criteria[]{criteria});
         List<Employee> employees = employeeService.find(criterias, getResourceDir(), getContextPath());
         return employees.get(0);
+    }
+
+    @RequestMapping("/fetchDicData")
+    @ResponseBody
+    public Map<String, Object> personDictData() {
+        Map<String, Object> resultMap = new HashMap<String, Object>();
+        Map<String, Object> dataMap = new HashMap<String, Object>();
+        dataMap.put("dept", employeeService.personDepartments());
+        dataMap.put("subject", employeeService.personMajors());
+        resultMap.put("data", dataMap);
+        return resultMap;
     }
 
     @RequestMapping("/deviceVerify")

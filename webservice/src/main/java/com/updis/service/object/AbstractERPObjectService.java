@@ -80,8 +80,8 @@ public abstract class AbstractERPObjectService<T extends ConvertibleERPObject> i
     @Override
     public int count(List<Criteria> criterias, Map context) {
         try {
-            List<Integer> integers = objectService.search(getERPConfig(), criterias, 0, null, null, null, true);
-            return integers.get(0);
+            List<Integer> integers = objectService.search(getERPConfig(), criterias, 0, null, null, null, false);
+            return integers.size();
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
             return 0;

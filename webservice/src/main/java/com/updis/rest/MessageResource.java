@@ -42,29 +42,31 @@ public class MessageResource extends AbstractResource {
                                                 @RequestParam(value = "currentPage", defaultValue = "1") Integer currentPage,
                                                 @RequestParam(value = "pageSize", defaultValue = "20") Integer pageSize) {
         Map<String, Object> objectMap = new HashMap<String, Object>();
-        int offset = (currentPage - 1) * pageSize;
-
-        if (offset < 0) {
-            objectMap.put("data",null);
-            objectMap.put("errorMessage", "currentPage cannot be zero or negative");
-            return objectMap;
-        }
-
-        List<MessageDetail> messageDetails = new ArrayList<MessageDetail>();
-        List<Criteria> criterias = new ArrayList<Criteria>();
-
-        String categoryName = CategoryTypeEnum.getByCategoryTypeId(categoryType).getName();
-        criterias.add(new Criteria("category_id_name", "=", categoryName));
         try {
+            int offset = (currentPage - 1) * pageSize;
+
+            if (offset < 0) {
+                objectMap.put("data",null);
+                objectMap.put("errorMessage", "currentPage cannot be zero or negative");
+                return objectMap;
+            }
+
+            List<MessageDetail> messageDetails = new ArrayList<MessageDetail>();
+            List<Criteria> criterias = new ArrayList<Criteria>();
+
+            String categoryName = CategoryTypeEnum.getByCategoryTypeId(categoryType).getName();
+            criterias.add(new Criteria("category_id_name", "=", categoryName));
+            int pageNum = (int) Math.ceil(messageDetailService.count(criterias, null) / Double.valueOf(pageSize));
+            objectMap.put("total_page", pageNum);
             messageDetails = messageDetailService.find(criterias, null, offset, pageSize, null, false, getResourceDir(), getContextPath(), "name", "create_uid", "create_date_display", "image", "department_id", "category_id_name");
+            objectMap.put("data", messageDetails);
+            return objectMap;
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
+            objectMap.put("data", null);
+            objectMap.put("total_page", 0);
+            return objectMap;
         }
-        objectMap.put("data", messageDetails);
-
-        int pageNum = (int) Math.ceil(messageDetailService.count(criterias, null) / Double.valueOf(pageSize));
-        objectMap.put("total_page", pageNum);
-        return objectMap;
     }
 
     @RequestMapping("/fetchDetail")

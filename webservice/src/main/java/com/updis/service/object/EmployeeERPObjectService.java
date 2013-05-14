@@ -38,7 +38,7 @@ public class EmployeeERPObjectService extends AbstractERPObjectService<Employee>
         List<Object> result = new ArrayList<Object>();
         try {
             erpConfig.setModelName("hr.department");
-            List<Map<String, Object>> erpDepartments =  objectService.searchRead(erpConfig, new ArrayList<Criteria>(), 0, 10000, null, null, false, "name", "id");
+            List<Map<String, Object>> erpDepartments =  objectService.searchRead(erpConfig, new ArrayList<Criteria>(), 0, null, null, null, false, "name", "id");
 
             // 过滤掉重复的.
             Set<String> departmentNames = new HashSet<String>();
@@ -69,7 +69,7 @@ public class EmployeeERPObjectService extends AbstractERPObjectService<Employee>
         List<Object> result = new ArrayList<Object>();
         try {
             erpConfig.setModelName("hr.employee");
-            List<Map<String, Object>> erpMajors = objectService.searchRead(erpConfig, null, 0, 10000, null, null, false, "major");
+            List<Map<String, Object>> erpMajors = objectService.searchRead(erpConfig, null, 0, null, null, null, false, "major");
 
             // 过滤掉重复的.
             Set<String> majorNames = new HashSet<String>();

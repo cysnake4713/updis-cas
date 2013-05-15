@@ -37,7 +37,7 @@ public class MessageResource extends AbstractResource {
 
     @RequestMapping("/fetchListData")
     @ResponseBody
-    public Map<String, Object> fetchMessageList(@RequestParam("uuid") String uuid,
+    public Map<String, Object> fetchMessageList(@RequestParam(value = "uuid", required = false) String uuid,
                                                 @RequestParam("categoryType") Integer categoryType,
                                                 @RequestParam(value = "currentPage", defaultValue = "1") Integer currentPage,
                                                 @RequestParam(value = "pageSize", defaultValue = "20") Integer pageSize) {
@@ -72,7 +72,7 @@ public class MessageResource extends AbstractResource {
 
     @RequestMapping("/fetchDetail")
     @ResponseBody
-    public Map<String, Object> fetchDetail(@RequestParam("uuid") String uuid, @RequestParam("contentId") Integer contentId) {
+    public Map<String, Object> fetchDetail(@RequestParam(value = "uuid", required = false) String uuid, @RequestParam("contentId") Integer contentId) {
         Map<String, Object> objectMap = new HashMap<String, Object>();
         Map<String, Object> data = new HashMap<String, Object>();
         MessageDetail messageDetail = (MessageDetail) messageDetailService.getById(contentId, getResourceDir(), getContextPath(),

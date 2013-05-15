@@ -28,11 +28,11 @@ public class LoginVerifyFilter implements Filter{
         HttpServletRequest request = (HttpServletRequest) servletRequest;
 
         String path = request.getRequestURI();
-        logger.debug(path);
+        String contextPath = request.getContextPath();
         String[] whiteList = {"/users/login", "/users/logout", "/users/deviceVerify", "/users/resendVerifyCode"};
         boolean isPathInWhileList = false;
         for (String s : whiteList) {
-            if (path.startsWith(s)) {
+            if (path.replace(contextPath, "").startsWith(s)) {
                 isPathInWhileList = true;
                 break;
             }

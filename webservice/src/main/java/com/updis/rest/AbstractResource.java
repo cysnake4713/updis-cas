@@ -27,6 +27,7 @@ public abstract class AbstractResource {
         stringBuffer.append(httpServletRequest.getServerName());
         stringBuffer.append(":");
         stringBuffer.append(httpServletRequest.getServerPort());
+        stringBuffer.append(httpServletRequest.getContextPath());
         stringBuffer.append("/resources/images/");
         stringBuffer.append(getResourceFolderName());
         stringBuffer.append("/");

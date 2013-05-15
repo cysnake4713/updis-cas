@@ -202,7 +202,7 @@ public class EmployeeResource extends AbstractResource {
         session.setAttribute("sendDate", new Date());
         //SendSMSJob.sendSMS(userMobileNumber, verifyCode);
         String verifyMessage = "验证码：" + verifyCode + "，请不要把此验证码泄露给任何人，如非本人使用请及时修改登录密码。";
-        SendSMSJob.sendSMS("18682118793", verifyMessage);
+        SendSMSJob.sendSMS(userMobileNumber, verifyMessage);
     }
 
     @RequestMapping("/logout")

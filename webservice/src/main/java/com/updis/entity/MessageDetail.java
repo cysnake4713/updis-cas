@@ -25,6 +25,7 @@ public class MessageDetail implements ConvertibleERPObject {
     private List<Comment> comments;
     private String content;
     private String category;
+    private String messageMeta;
 
     public String getCategory() {
         return category;
@@ -112,5 +113,13 @@ public class MessageDetail implements ConvertibleERPObject {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public String getMessageMeta() {
+        return messageMeta;
+    }
+
+    public void setMessageMeta(String messageMeta) {
+        this.messageMeta = messageMeta;
     }
 }

@@ -27,6 +27,7 @@ public class MessageDetailERPObjectConvertService extends AbstractERPObjectConve
         paramMap.put("read_times", "readCount");
         paramMap.put("content", "content");
         paramMap.put("category_id_name", "category");
+        paramMap.put("message_meta_display", "messageMeta");
     }
 
     @Override

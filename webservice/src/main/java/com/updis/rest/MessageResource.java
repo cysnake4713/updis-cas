@@ -58,7 +58,8 @@ public class MessageResource extends AbstractResource {
             criterias.add(new Criteria("category_id_name", "=", categoryName));
             int pageNum = (int) Math.ceil(messageDetailService.count(criterias, null) / Double.valueOf(pageSize));
             objectMap.put("total_page", pageNum);
-            messageDetails = messageDetailService.find(criterias, null, offset, pageSize, null, false, getResourceDir(), getContextPath(), "name", "create_uid", "create_date_display", "image", "department_id", "category_id_name");
+            messageDetails = messageDetailService.find(criterias, null, offset, pageSize, null, false, getResourceDir(), getContextPath(),
+                    "name", "create_uid", "create_date_display", "image", "department_id", "category_id_name", "message_meta_display");
             objectMap.put("data", messageDetails);
             return objectMap;
         } catch (Exception e) {
@@ -74,7 +75,8 @@ public class MessageResource extends AbstractResource {
     public Map<String, Object> fetchDetail(@RequestParam("uuid") String uuid, @RequestParam("contentId") Integer contentId) {
         Map<String, Object> objectMap = new HashMap<String, Object>();
         Map<String, Object> data = new HashMap<String, Object>();
-        MessageDetail messageDetail = (MessageDetail) messageDetailService.getById(contentId, getResourceDir(), getContextPath(), "name", "create_uid", "fbbm", "create_date_display", "image", "read_times", "message_ids", "content");
+        MessageDetail messageDetail = (MessageDetail) messageDetailService.getById(contentId, getResourceDir(), getContextPath(),
+                "name", "create_uid", "fbbm", "create_date_display", "image", "read_times", "message_ids", "content");
         data.put("content", messageDetail);
         data.put("comment", messageDetail.getComments());
         objectMap.put("data", data);
@@ -86,7 +88,7 @@ public class MessageResource extends AbstractResource {
     public Map<String, Object> fetchLatest() {
         Map<String, Object> objectMap = new HashMap<String, Object>();
 
-        Date f = new Date(new Date().getTime() - 100000 * 60 * 1000);
+        Date f = new Date(new Date().getTime() - 5 * 60 * 1000);
         Date t = new Date();
         List<MessageDetail> messageDetails = messageDetailService.getPushableMesagesBetweenDate(f, t);
         objectMap.put("data", messageDetails);

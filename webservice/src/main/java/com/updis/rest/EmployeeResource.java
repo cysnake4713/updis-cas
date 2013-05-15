@@ -214,9 +214,37 @@ public class EmployeeResource extends AbstractResource {
         return result;
     }
 
+    @RequestMapping("/fetchDeviceIds")
+    @ResponseBody
+    public Map<String, Object> queryDevice(@RequestParam("userId") Integer userId) {
+        Map<String, Object> resultMap = new HashMap<String, Object>();
+        try {
+            Set<String> deviceIds = userService.deviceIdsOfUser(userId);
+            resultMap.put("devices", deviceIds);
+            return resultMap;
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+            resultMap.put("devices", null);
+            resultMap.put("error", "An internal error happens.");
+            return resultMap;
+        }
+    }
+
+    @RequestMapping("/addDevice")
+    @ResponseBody
+    public Map<String, Object> addDevice(@RequestParam("userId") Integer userId, @RequestParam("deviceId") String deviceId) {
+        Map<String, Object> resultMap = new HashMap<String, Object>();
+        try {
+            boolean result = userService.addDeviceIdToUsersRegisterDevice(deviceId, userId);
+            resultMap.put("result", result);
+            return resultMap;
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+            resultMap.put("result", false);
+            resultMap.put("error", "An internal error happens.");
+            return resultMap;
         }
 
-        return stringObjectMap;
     }
 
     @Override

@@ -1,5 +1,7 @@
 package com.updis.entity;
 
+import com.updis.service.converter.ConvertibleERPObject;
+
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.List;
 
@@ -11,23 +13,34 @@ import java.util.List;
  * To change this template use File | Settings | File Templates.
  */
 @XmlRootElement
-public class MessageDetail extends Message {
+public class MessageDetail implements ConvertibleERPObject {
     private Integer contentId;
     private String subtitle;
     private String author;
     private String title;
     private String iconUrl;
     private String datetime;
-    private String fbbm;
+    private String dept;
     private Integer readCount;
     private List<Comment> comments;
+    private String content;
+    private String category;
+    private String messageMeta;
 
-    public String getFbbm() {
-        return fbbm;
+    public String getCategory() {
+        return category;
     }
 
-    public void setFbbm(String fbbm) {
-        this.fbbm = fbbm;
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public String getDept() {
+        return dept;
+    }
+
+    public void setDept(String dept) {
+        this.dept = dept;
     }
 
     public Integer getReadCount() {
@@ -92,5 +105,21 @@ public class MessageDetail extends Message {
 
     public void setDatetime(String datetime) {
         this.datetime = datetime;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public String getMessageMeta() {
+        return messageMeta;
+    }
+
+    public void setMessageMeta(String messageMeta) {
+        this.messageMeta = messageMeta;
     }
 }
